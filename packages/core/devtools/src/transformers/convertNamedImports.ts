@@ -15,28 +15,27 @@ import { pascalCase } from '../string';
  * @return {any}
  */
 function convert(code: string, modules: string[] = [], config: GameResourceConfigModel) {
-  const modulesForConvert = modules || [];
   const moduleMap = [];
   const root = j(code);
 
   // Map all imports to moduleMap
-  root.find(j.ImportDeclaration).map((path) => {
-    let moduleName = path.value.source.value;
-    moduleMap[moduleName] = [];
+  // root.find(j.ImportDeclaration).map((path) => {
+  //   let moduleName = path.value.source.value;
+  //   moduleMap[moduleName] = [];
 
-    if (moduleName.startsWith('.') || !modulesForConvert.includes(moduleName) || !path.node.specifiers.length)
-      return;
+  //   if (moduleName.startsWith('.') || !modulesForConvert.includes(moduleName) || !path.node.specifiers.length)
+  //     return;
 
-    path.node.specifiers.forEach((specifier) => {
-      if (specifier.type !== 'ImportSpecifier') return;
+  //   path.node.specifiers.forEach((specifier) => {
+  //     if (specifier.type !== 'ImportSpecifier') return;
 
-      moduleMap[moduleName].push(specifier.local.name);
-    });
+  //     moduleMap[moduleName].push(specifier.local.name);
+  //   });
 
-    j(path).replaceWith(
-        `import ${!config.useStarImport ? '' : '* as'} ${pascalCase(moduleName)} from '${moduleName}';`
-    );
-  });
+  //   j(path).replaceWith(
+  //       `import ${!config.useStarImport ? '' : '* as'} ${pascalCase(moduleName)} from '${moduleName}';`
+  //   );
+  // });
 
   // Call Expression
   root.find(j.CallExpression)
