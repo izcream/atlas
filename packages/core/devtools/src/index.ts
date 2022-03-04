@@ -1,9 +1,9 @@
-import '@abraham/reflection';
-import { config } from 'dotenv';
+import '@abraham/reflection'
+import { config } from 'dotenv'
 
-config();
+config()
 
-export { unique } from './array';
+export { unique } from './array'
 
 export {
   findByMatching,
@@ -16,14 +16,14 @@ export {
   renderTemplateFromString,
   resolveAndLoadFile,
   copy
-} from './filesystem';
+} from './filesystem'
 
-export type { DirAndFileInstaller } from './filesystem';
+export type { DirAndFileInstaller } from './filesystem'
 
-export { jsonToYaml, yamlToJson, writeJsonToYaml, appendJsonToYaml, readYamlAsJson } from './yaml';
-export { createTempCfg, readKeyFromCfg, readCfg, cfgFromObject, sanitizedCfg } from './cfg';
+export { jsonToYaml, yamlToJson, writeJsonToYaml, appendJsonToYaml, readYamlAsJson } from './yaml'
+export { createTempCfg, readKeyFromCfg, readCfg, cfgFromObject, sanitizedCfg } from './cfg'
 
-export { envToJson, jsonToEnv, env, appendToEnv } from './environment';
+export { envToJson, jsonToEnv, env, appendToEnv } from './environment'
 
 export {
   normalize,
@@ -38,31 +38,27 @@ export {
   snakeCase,
   pathCase,
   sentenceCase
-} from './string';
+} from './string'
 
-export {
-  getResetScreen, stderr, handleError, isTTY, successMessage, errorMessage, createProgressBar, executeCommand
-} from './terminal';
+export { getResetScreen, stderr, handleError, isTTY, successMessage, errorMessage, createProgressBar, executeCommand } from './terminal'
 
-export { formatBytes } from './numbers';
+export { formatBytes } from './numbers'
 
-export { GameResourceModel } from './models/game-resource.model';
-export { GameResourceConfigModel } from './models/game-resource-config.model';
-export { ResourceConfigModel } from './models/resource-config.model';
-export { ResourceOutputModel } from './models/resource-output.model';
+export { GameResourceModel } from './models/game-resource.model'
+export { GameResourceConfigModel } from './models/game-resource-config.model'
+export { ResourceConfigModel } from './models/resource-config.model'
+export { ResourceOutputModel } from './models/resource-output.model'
 
-export { HasOne, HasMany, Cast, castFromJson, JsonEntityModel } from './libs/json-entity';
+export { HasOne, HasMany, Cast, castFromJson, JsonEntityModel } from './libs/json-entity'
 
-export type { CastCallback, CastConfig } from './libs/json-entity/decorators/cast';
-export type { ResourceCreateConfigInterface, PrepareForCopyInterface } from './libs/resources';
+export type { CastCallback, CastConfig } from './libs/json-entity/decorators/cast'
+export type { ResourceCreateConfigInterface, PrepareForCopyInterface } from './libs/resources'
 
-export { AtlasRcInterface, AtlasHooksInterface } from './interfaces/atlas-rc.interface';
+export { AtlasRcInterface, AtlasHooksInterface } from './interfaces/atlas-rc.interface'
 
-export { ResourceManager, ResourceConfigCreator } from './libs/resources';
+export { ResourceManager, ResourceConfigCreator } from './libs/resources'
 
-export { convertNamedImports } from './transformers/convertNamedImports';
-
-export { relativeId } from './relativeId';
+export { relativeId } from './relativeId'
 
 // Atlas Helpers
 export {
@@ -74,9 +70,9 @@ export {
   runHook,
   getAtlasRc,
   getNodeVersionNumber
-} from './atlas';
+} from './atlas'
 
-export { FSJetpack } from 'fs-jetpack/types';
+export { FSJetpack } from 'fs-jetpack/types'
 
-export { PackageJson, PackageJsonAtlas } from './types';
-export type { PackageJsonDep } from './types';
+export { PackageJson, PackageJsonAtlas } from './types'
+export type { PackageJsonDep } from './types'

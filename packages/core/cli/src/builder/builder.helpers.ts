@@ -1,4 +1,4 @@
-import { env } from '@abstractflo/atlas-devtools';
+import { env } from '@abstractflo/atlas-devtools'
 
 /**
  * Return all files and folders they would preserved from remove
@@ -6,7 +6,7 @@ import { env } from '@abstractflo/atlas-devtools';
  * @return {string[]}
  */
 export function getDefinedPreserves(): string[] {
-  const hasDefinedPreserves = env<string>('ATLAS_CLEAR_PRESERVE', '');
+  const hasDefinedPreserves = env<string>('ATLAS_CLEAR_PRESERVE', '')
 
   const out = [
     'node_modules/**/*',
@@ -22,12 +22,12 @@ export function getDefinedPreserves(): string[] {
     '.docker',
     'docker/**/*',
     'docker-compose.*'
-  ];
+  ]
 
   if (hasDefinedPreserves) {
-    const customerPreservedFiles = hasDefinedPreserves.split(',');
-    out.push(...customerPreservedFiles);
+    const customerPreservedFiles = hasDefinedPreserves.split(',')
+    out.push(...customerPreservedFiles)
   }
 
-  return out;
+  return out
 }

@@ -1,7 +1,7 @@
-import './setup';
-import './extends/colshape/alt-colshape.prototype';
+import './setup'
+import './extends/colshape/alt-colshape.prototype'
 
-export { EventService } from './services/event.service';
+export { EventService } from './services/event.service'
 
 export {
   OnceClient,
@@ -11,7 +11,7 @@ export {
   EntityEnterColShape,
   OffClient,
   OnGui
-} from './decorators/event.decorator';
+} from './decorators/event.decorator'
 
-export { ColShapeInterface } from './extends/colshape/colshape.interface';
-export { defaultErrorHandling } from './helpers';
+export { ColShapeInterface } from './extends/colshape/colshape.interface'
+export { defaultErrorHandling } from './helpers'

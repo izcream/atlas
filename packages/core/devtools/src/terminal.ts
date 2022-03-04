@@ -1,42 +1,39 @@
-import { bold, cyan, dim, green, red } from 'colorette';
-import { RollupError, WatcherOptions } from 'rollup';
-import { relativeId } from './relativeId';
-import ProgressBar, { ProgressBarOptions } from 'progress';
-import execa, { Options } from 'execa';
-import { WriteStream } from 'tty';
+import { bold, cyan, dim, green, red } from 'colorette'
+import { RollupError, WatcherOptions } from 'rollup'
+import { relativeId } from './relativeId'
+import ProgressBar, { ProgressBarOptions } from 'progress'
+import execa, { Options } from 'execa'
+import { WriteStream } from 'tty'
 
-const CLEAR_SCREEN = '\u001Bc';
+const CLEAR_SCREEN = '\u001Bc'
 
 /**
  * Clear the terminal screen
  */
-export function getResetScreen(
-    config: WatcherOptions,
-    allowClearScreen: boolean | undefined
-) {
-  let clearScreen = allowClearScreen;
+export function getResetScreen(config: WatcherOptions, allowClearScreen: boolean | undefined) {
+  let clearScreen = allowClearScreen
   if (config && config.clearScreen === false) {
-    clearScreen = false;
+    clearScreen = false
   }
 
   if (clearScreen) {
-    return (heading: string) => stderr(CLEAR_SCREEN + heading);
+    return (heading: string) => stderr(CLEAR_SCREEN + heading)
   }
 
-  let firstRun = true;
+  let firstRun = true
   return (heading: string) => {
     if (firstRun) {
-      stderr(heading);
-      firstRun = false;
+      stderr(heading)
+      firstRun = false
     }
-  };
+  }
 }
 
 /**
  * Bind output to console.error to prevent bundle from breaking
  * @type {any}
  */
-export const stderr = console.error.bind(console);
+export const stderr = console.error.bind(console)
 
 /**
  * Handle errors
@@ -45,33 +42,33 @@ export const stderr = console.error.bind(console);
  * @param {boolean} recover
  */
 export function handleError(err: RollupError, recover = false) {
-  let description = err.message || err;
-  if (err.name) description = `${err.name}: ${description}`;
-  const message = (err.plugin ? `(plugin ${err.plugin}) ${description}` : description) || err;
+  let description = err.message || err
+  if (err.name) description = `${err.name}: ${description}`
+  const message = (err.plugin ? `(plugin ${err.plugin}) ${description}` : description) || err
 
-  stderr(bold(red(`[!] ${bold(message.toString())}`)));
+  stderr(bold(red(`[!] ${bold(message.toString())}`)))
 
   if (err.url) {
-    stderr(cyan(err.url));
+    stderr(cyan(err.url))
   }
 
   if (err.loc) {
-    stderr(`${relativeId((err.loc.file || err.id)!)} (${err.loc.line}:${err.loc.column})`);
+    stderr(`${relativeId((err.loc.file || err.id)!)} (${err.loc.line}:${err.loc.column})`)
   } else if (err.id) {
-    stderr(relativeId(err.id));
+    stderr(relativeId(err.id))
   }
 
   if (err.frame) {
-    stderr(dim(err.frame));
+    stderr(dim(err.frame))
   }
 
   if (err.stack) {
-    stderr(dim(err.stack));
+    stderr(dim(err.stack))
   }
 
-  stderr('');
+  stderr('')
 
-  if (!recover) process.exit(1);
+  if (!recover) process.exit(1)
 }
 
 /**
@@ -79,7 +76,7 @@ export function handleError(err: RollupError, recover = false) {
  *
  * @type {boolean}
  */
-export const isTTY = process.stderr.isTTY;
+export const isTTY = process.stderr.isTTY
 
 /**
  * Generate success console message
@@ -88,7 +85,7 @@ export const isTTY = process.stderr.isTTY;
  * @param {string} type
  */
 export function successMessage(message: string, type: string = 'Success'): void {
-  stderr(`${green(type)} -> ${message}`);
+  stderr(`${green(type)} -> ${message}`)
 }
 
 /**
@@ -98,7 +95,7 @@ export function successMessage(message: string, type: string = 'Success'): void 
  * @param {string} type
  */
 export function errorMessage(message: string, type: string = 'Error'): void {
-  stderr(`${red(type)} -> ${message}`);
+  stderr(`${red(type)} -> ${message}`)
 }
 
 /**
@@ -110,21 +107,17 @@ export function errorMessage(message: string, type: string = 'Error'): void {
  * @return {ProgressBar}
  */
 export function createProgressBar(format: string, options: ProgressBarOptions, startingMessage: string): ProgressBar {
-
   const defaultOptions: ProgressBarOptions = {
     width: 40,
     complete: '=',
     incomplete: ' ',
     renderThrottle: 1,
     total: 0
-  };
+  }
 
-  stderr(startingMessage);
+  stderr(startingMessage)
 
-  return new ProgressBar(
-      format,
-      { ...defaultOptions, ...options }
-  );
+  return new ProgressBar(format, { ...defaultOptions, ...options })
 }
 
 /**
@@ -137,15 +130,10 @@ export function createProgressBar(format: string, options: ProgressBarOptions, s
  */
 export function executeCommand(command: string, errorMessage: string, options?: Options): Promise<void> {
   return new Promise((resolve, reject) => {
-    const cmd = execa(command, options);
+    const cmd = execa(command, options)
 
-    cmd.on('error', () => reject(new Error(errorMessage)));
-    cmd.on('exit', (code: number | null) =>
-        code === 0
-            ? resolve()
-            : reject(new Error(errorMessage))
-    );
-    cmd.on('close', resolve);
-  });
-
+    cmd.on('error', () => reject(new Error(errorMessage)))
+    cmd.on('exit', (code: number | null) => (code === 0 ? resolve() : reject(new Error(errorMessage))))
+    cmd.on('close', resolve)
+  })
 }

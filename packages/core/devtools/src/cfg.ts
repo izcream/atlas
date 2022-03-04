@@ -1,4 +1,4 @@
-import { Config } from 'cfg-reader';
+import { Config } from 'cfg-reader'
 
 /**
  * Return a config value from given config file
@@ -8,8 +8,8 @@ import { Config } from 'cfg-reader';
  * @return {T}
  */
 export function readKeyFromCfg<T = unknown>(pathToConfig: string, key: string): T {
-  const config = new Config(pathToConfig, {});
-  return config.getOfType(key);
+  const config = new Config(pathToConfig, {})
+  return config.getOfType(key)
 }
 
 /**
@@ -19,7 +19,7 @@ export function readKeyFromCfg<T = unknown>(pathToConfig: string, key: string): 
  * @return {Config}
  */
 export function readCfg(path: string): Config {
-  return new Config(path, {});
+  return new Config(path, {})
 }
 
 /**
@@ -28,7 +28,7 @@ export function readCfg(path: string): Config {
  * @return {Config}
  */
 export function createTempCfg(data: { [key: string]: any }): Config {
-  return new Config('tmp.cfg', data);
+  return new Config('tmp.cfg', data)
 }
 
 /**
@@ -38,7 +38,7 @@ export function createTempCfg(data: { [key: string]: any }): Config {
  * @return {string}
  */
 export function sanitizedCfg(cfg: string): string {
-  return cfg.replace(/\\/g, '');
+  return cfg.replace(/\\/g, '')
 }
 
 /**
@@ -48,5 +48,5 @@ export function sanitizedCfg(cfg: string): string {
  * @return {string}
  */
 export function cfgFromObject(data: { [key: string]: any }): string {
-  return createTempCfg(data).serialize();
+  return createTempCfg(data).serialize()
 }

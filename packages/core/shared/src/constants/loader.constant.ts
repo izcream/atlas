@@ -6,8 +6,7 @@ export const LoaderConstant = {
   QUEUE_AFTER: Symbol('loader:queue:after'),
   QUEUE_LAST: Symbol('loader:queue:last'),
 
-
   // Atlas-Loader
   MODULE: Symbol('loader:module'),
   COMPONENT: Symbol('loader:component')
-};
+}

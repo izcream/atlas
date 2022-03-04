@@ -1,6 +1,6 @@
-import { camelCase, cfgFromObject, pascalCase, sanitizedCfg, snakeCase } from '@abstractflo/atlas-devtools';
-import { dlcResource, streamCfg } from './file-object-stubs';
-import { interproxiesMeta, pedMeta, tattooMeta, tattooOverlayXml } from './dlc-xml-meta';
+import { camelCase, cfgFromObject, pascalCase, sanitizedCfg, snakeCase } from '@abstractflo/atlas-devtools'
+import { dlcResource, streamCfg } from './file-object-stubs'
+import { interproxiesMeta, pedMeta, tattooMeta, tattooOverlayXml } from './dlc-xml-meta'
 
 /**
  * Base data for dlc
@@ -14,13 +14,13 @@ export function baseData(name: string, type: string, assetsFolder: boolean = tru
   const base = [
     { name: 'altas-resource.json', file: { name: camelCase(`${type} ${name}`) } },
     { name: 'resource.cfg', file: sanitizedCfg(cfgFromObject(dlcResource)) }
-  ];
+  ]
 
   if (assetsFolder) {
-    base.push({ name: 'stream/assets/.gitkeep', file: 'empty' });
+    base.push({ name: 'stream/assets/.gitkeep', file: 'empty' })
   }
 
-  return base;
+  return base
 }
 
 /**
@@ -42,8 +42,8 @@ export function vehicleTmpFiles(name: string) {
     { name: `stream/audio/${name}_sounds.dat54`, file: 'empty' },
     { name: `stream/audio/${name}_sounds.dat54.nametable`, file: 'empty' },
     { name: `stream/audio/${name}_sounds.dat54.rel`, file: 'empty' }
-  ];
-};
+  ]
+}
 
 /**
  * Vehicle streamcfg meta
@@ -61,7 +61,7 @@ export function vehicleStreamCfg(name: string) {
       [`stream/audio/${name}_sounds.dat`]: 'AUDIO_SOUNDDATA',
       [`stream/audio/${name}_amp.dat`]: 'AUDIO_SYNTHDATA'
     }
-  };
+  }
 }
 
 /**
@@ -75,7 +75,7 @@ export function weaponTmpFiles(name: string) {
     { name: `stream/weapon${name}.meta`, file: 'empty' },
     { name: `stream/weaponarchetypes.meta`, file: 'empty' },
     { name: `stream/weaponanimations.meta`, file: 'empty' }
-  ];
+  ]
 }
 
 /**
@@ -90,7 +90,7 @@ export function weaponStreamCfg(name: string) {
       'stream/weaponanimations.meta': 'WEAPON_ANIMATIONS_FILE',
       'stream/weaponarchetypes.meta': 'WEAPON_METADATA_FILE'
     }
-  };
+  }
 }
 
 /**
@@ -109,7 +109,7 @@ export function mloTmpFiles(name: string) {
     { name: `stream/${name}.ytyp`, file: 'empty' },
     { name: `stream/${name}.ymap`, file: 'empty' },
     { name: `stream/${name}_milo_.ymap`, file: 'empty' }
-  ];
+  ]
 }
 
 /**
@@ -117,7 +117,7 @@ export function mloTmpFiles(name: string) {
  * @param {string} name
  */
 export function interiorProxiesTmpFiles(name: string) {
-  return [{ name: `stream/interiorproxies.meta`, file: interproxiesMeta(name) }];
+  return [{ name: `stream/interiorproxies.meta`, file: interproxiesMeta(name) }]
 }
 
 /**
@@ -129,7 +129,7 @@ export function interiorProxiesStreamCfg() {
     meta: {
       'stream/interiorproxies.meta': 'INTERIOR_PROXY_ORDER_FILE'
     }
-  };
+  }
 }
 
 /**
@@ -139,15 +139,12 @@ export function interiorProxiesStreamCfg() {
 export function clothesStreamCfg(name: string) {
   return {
     ...streamCfg,
-    files: [
-      'stream/ped_male.rpf/*',
-      'stream/ped_female.rpf/*'
-    ],
+    files: ['stream/ped_male.rpf/*', 'stream/ped_female.rpf/*'],
     meta: {
       [`stream/mp_m_freemode_01_mp_m_${name}.meta`]: 'SHOP_PED_APPAREL_META_FILE',
       [`stream/mp_f_freemode_01_mp_f_${name}.meta`]: 'SHOP_PED_APPAREL_META_FILE'
     }
-  };
+  }
 }
 
 /**
@@ -162,9 +159,8 @@ export function clothesTmpFiles(name: string) {
     { name: `stream/ped_female.rpf/mp_f_freemode_01_mp_f_${name}/example.ytd`, file: 'empty' },
     { name: `stream/mp_m_freemode_01_mp_m_${name}.meta`, file: 'empty' },
     { name: `stream/mp_f_freemode_01_mp_f_${name}.meta`, file: 'empty' }
-  ];
+  ]
 }
-
 
 /**
  * Sounds streamcfg
@@ -178,7 +174,7 @@ export function soundStreamCfg() {
       'stream/x64/audio/sfx/weapons_player': 'AUDIO_WAVEPACK',
       'stream/x64/audio/sfx/animals': 'AUDIO_WAVEPACK'
     }
-  };
+  }
 }
 
 /**
@@ -189,7 +185,7 @@ export function soundTmpFiles() {
     { name: `stream/x64/audio/sfx/resident/example_sirens.awc`, file: 'empty' },
     { name: `stream/x64/audio/sfx/animals/example_animal.awc`, file: 'empty' },
     { name: `stream/x64/audio/sfx/weapons_player/example_smg_sound.awc`, file: 'empty' }
-  ];
+  ]
 }
 
 /**
@@ -204,7 +200,7 @@ export function pedStreamCfg() {
       'stream/x64/audio/sfx/weapons_player': 'AUDIO_WAVEPACK',
       'stream/x64/audio/sfx/animals': 'AUDIO_WAVEPACK'
     }
-  };
+  }
 }
 
 /**
@@ -218,7 +214,7 @@ export function pedTmpFiles(name: string) {
     { name: `stream/models/${name}.yft`, file: 'empty' },
     { name: `stream/female_${name}.meta`, file: pedMeta('female', name) },
     { name: `stream/male_${name}.meta`, file: pedMeta('male', name) }
-  ];
+  ]
 }
 
 /**
@@ -231,7 +227,7 @@ export function tattooStreamCfg(name: string) {
       [`stream/${snakeCase(name)}_overlays.xml`]: 'PED_OVERLAY_FILE',
       'stream/shop_tattoo.meta': 'TATTOO_SHOP_DLC_FILE'
     }
-  };
+  }
 }
 
 /**
@@ -242,7 +238,7 @@ export function tattooTmpFiles(name: string) {
     { name: `stream/assets/${pascalCase(name)}_000.ytd`, file: 'empty' },
     { name: `stream/${snakeCase(name)}.xml`, file: tattooOverlayXml(name) },
     { name: `stream/shop_tattoo.meta`, file: tattooMeta(name) }
-  ];
+  ]
 }
 
 /**
@@ -253,13 +249,12 @@ export function tattooTmpFiles(name: string) {
  * @return {({name: string, file?: string} | {file: string, name: string})[]}
  */
 export function generateDirAndFileSetup(
-    tmpFiles: { name: string, file?: string }[],
-    streamConfig: object,
-    baseData: { name: string, file?: string | object }[]
+  tmpFiles: { name: string; file?: string }[],
+  streamConfig: object,
+  baseData: { name: string; file?: string | object }[]
 ) {
-  const cfgTmp = cfgFromObject(streamConfig);
-  const streamFileContent = sanitizedCfg(cfgTmp)
-      .replace(/'/g, '');
+  const cfgTmp = cfgFromObject(streamConfig)
+  const streamFileContent = sanitizedCfg(cfgTmp).replace(/'/g, '')
 
   return [
     ...baseData,
@@ -268,5 +263,5 @@ export function generateDirAndFileSetup(
       name: 'stream.cfg',
       file: streamFileContent
     }
-  ];
+  ]
 }

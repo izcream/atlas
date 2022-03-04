@@ -1,7 +1,7 @@
 export interface AtlasRcInterface {
-  hooks: AtlasHooksInterface;
+  hooks: AtlasHooksInterface
 }
 
 export interface AtlasHooksInterface {
-  cmd: string[];
+  cmd: string[]
 }

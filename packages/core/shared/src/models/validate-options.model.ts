@@ -1,18 +1,18 @@
-import { Cast, JsonEntityModel } from '../libs/json-entity';
+import { Cast, JsonEntityModel } from '../libs/json-entity'
 
 export class ValidateOptionsModel extends JsonEntityModel {
   @Cast()
-  public entity: number;
+  public entity: number
 
   @Cast()
-  public metaKey: string;
+  public metaKey: string
 
   @Cast()
-  public keyboardKey: number;
+  public keyboardKey: number
 
   @Cast()
-  public colShapeType: number;
+  public colShapeType: number
 
   @Cast()
-  public name: string;
+  public name: string
 }

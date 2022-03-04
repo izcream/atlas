@@ -1,5 +1,5 @@
-import { Internal, registerDescriptor, setEventServiceReflectMetaData } from '@abstractflo/atlas-shared';
-import { BaseObjectType } from 'alt-client';
+import { Internal, registerDescriptor, setEventServiceReflectMetaData } from '@abstractflo/atlas-shared'
+import { BaseObjectType } from 'alt-client'
 
 /**
  * Register @OnServer decorator
@@ -8,13 +8,13 @@ import { BaseObjectType } from 'alt-client';
  * @return {MethodDecorator}
  * @constructor
  */
-function OnServer(name: string): MethodDecorator;
-function OnServer(resetable: boolean): MethodDecorator;
-function OnServer(name: string, resetable: boolean): MethodDecorator;
-function OnServer(name?: string, resetable?: boolean): MethodDecorator;
+function OnServer(name: string): MethodDecorator
+function OnServer(resetable: boolean): MethodDecorator
+function OnServer(name: string, resetable: boolean): MethodDecorator
+function OnServer(name?: string, resetable?: boolean): MethodDecorator
 function OnServer(name?: string | boolean, resetable?: boolean): MethodDecorator {
   return (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor | void => {
-    const eventName = typeof name !== 'boolean' && name || propertyKey;
+    const eventName = (typeof name !== 'boolean' && name) || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_On_Server, {
       type: 'onServer',
@@ -25,10 +25,10 @@ function OnServer(name?: string | boolean, resetable?: boolean): MethodDecorator
       validateOptions: {
         name: eventName
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
+    return registerDescriptor(descriptor)
+  }
 }
 
 /**
@@ -40,7 +40,7 @@ function OnServer(name?: string | boolean, resetable?: boolean): MethodDecorator
  */
 export const OnceServer = (name?: string): MethodDecorator => {
   return (target: Object, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor | void => {
-    const eventName = name || propertyKey;
+    const eventName = name || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_Once_Server, {
       type: 'onceServer',
@@ -50,11 +50,11 @@ export const OnceServer = (name?: string): MethodDecorator => {
       validateOptions: {
         name: eventName
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register decorated method for offServer handler
@@ -64,23 +64,19 @@ export const OnceServer = (name?: string): MethodDecorator => {
  * @constructor
  */
 export const OffServer = (name?: string): MethodDecorator => {
-  return function (
-      target: Record<string, unknown>,
-      propertyKey: string,
-      descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
-    const eventName = name || propertyKey;
+  return function (target: Record<string, unknown>, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const eventName = name || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_OffServer, {
       type: 'offServer',
       eventName,
       methodName: propertyKey,
       targetName: target.constructor.name
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register @GameEntityCreate decorator
@@ -98,11 +94,11 @@ export const GameEntityCreate = (entityType: BaseObjectType): MethodDecorator =>
       validateOptions: {
         entity: entityType
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register @GameEntityDestroy decorator
@@ -120,11 +116,11 @@ export const GameEntityDestroy = (entityType: BaseObjectType): MethodDecorator =
       validateOptions: {
         entity: entityType
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register @StreamSyncedMetaChange decorator
@@ -144,11 +140,11 @@ export const StreamSyncedMetaChange = (entityType: BaseObjectType, metaKey?: str
         entity: entityType,
         metaKey
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register @SyncedMetaChange decorator
@@ -168,11 +164,10 @@ export const SyncedMetaChange = (entityType: BaseObjectType, metaKey?: string): 
         entity: entityType,
         metaKey
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
-
-export { OnServer };
+export { OnServer }

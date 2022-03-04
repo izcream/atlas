@@ -5,7 +5,7 @@ export abstract class BasePool<T, K = string | number> {
    * @type {Map<K, T>}
    * @protected
    */
-  protected pool: Map<K, T> = new Map<K, T>();
+  protected pool: Map<K, T> = new Map<K, T>()
 
   /**
    * Return the size of the pool
@@ -13,7 +13,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {number}
    */
   public get size(): number {
-    return this.pool.size;
+    return this.pool.size
   }
 
   /**
@@ -24,7 +24,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {Map<K, T> | void}
    */
   public upsert(identifier: K, entity: T): Map<K, T> | void {
-    this.pool.set(identifier, entity);
+    this.pool.set(identifier, entity)
   }
 
   /**
@@ -33,7 +33,7 @@ export abstract class BasePool<T, K = string | number> {
    * @param {any} items
    */
   public upsertMany(...items: [K, T][]): void {
-    items.forEach((item: [K, T]) => this.upsert(item[0], item[1]));
+    items.forEach((item: [K, T]) => this.upsert(item[0], item[1]))
   }
 
   /**
@@ -43,7 +43,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {void | T}
    */
   public get(identifier: K): T | void {
-    return this.pool.get(identifier);
+    return this.pool.get(identifier)
   }
 
   /**
@@ -53,7 +53,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {boolean}
    */
   public has(identifier: K): boolean {
-    return this.pool.has(identifier);
+    return this.pool.has(identifier)
   }
 
   /**
@@ -62,7 +62,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {T[]}
    */
   public entriesAsArray(): T[] {
-    return Array.from(this.pool.values());
+    return Array.from(this.pool.values())
   }
 
   /**
@@ -71,7 +71,7 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {K[]}
    */
   public keysAsArray(): K[] {
-    return Array.from(this.pool.keys());
+    return Array.from(this.pool.keys())
   }
 
   /**
@@ -81,13 +81,13 @@ export abstract class BasePool<T, K = string | number> {
    * @returns {boolean}
    */
   public remove(identifier: K): boolean {
-    return this.pool.delete(identifier);
+    return this.pool.delete(identifier)
   }
 
   /**
    * Clear the complete pool
    */
   public clear(): void {
-    this.pool.clear();
+    this.pool.clear()
   }
 }

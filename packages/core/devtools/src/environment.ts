@@ -1,6 +1,6 @@
-import { parse } from 'dotenv';
-import { fsJetpack } from './filesystem';
-import { constantCase } from './string';
+import { parse } from 'dotenv'
+import { fsJetpack } from './filesystem'
+import { constantCase } from './string'
 
 /**
  * Get specific key from env or defaultValue
@@ -10,12 +10,10 @@ import { constantCase } from './string';
  * @return {string}
  */
 export function env<T = string>(key: string, defaultValue: T = null): T {
-  const env = envToJson();
-  const envVar = env[key];
+  const env = envToJson()
+  const envVar = env[key]
 
-  return envVar !== undefined && envVar !== null && envVar !== ''
-      ? envVar
-      : defaultValue;
+  return envVar !== undefined && envVar !== null && envVar !== '' ? envVar : defaultValue
 }
 
 /**
@@ -25,8 +23,8 @@ export function env<T = string>(key: string, defaultValue: T = null): T {
  */
 export function jsonToEnv(data: Record<string, any>): string {
   return Object.keys(data)
-      .map((k: string) => `${constantCase(k)}=${data[k]}`)
-      .join('\n');
+    .map((k: string) => `${constantCase(k)}=${data[k]}`)
+    .join('\n')
 }
 
 /**
@@ -35,16 +33,16 @@ export function jsonToEnv(data: Record<string, any>): string {
  * @param {Record<string, any>} data
  */
 export function appendToEnv(data: Record<string, any>): void {
-  const envContent = jsonToEnv(data);
-  fsJetpack().append('.env', `${envContent}\n`);
+  const envContent = jsonToEnv(data)
+  fsJetpack().append('.env', `${envContent}\n`)
 }
 
 /**
  * Return .env as json object
  */
 export function envToJson(): Record<string, any> {
-  const env = fsJetpack().read('.env') || '';
-  return parse(env);
+  const env = fsJetpack().read('.env') || ''
+  return parse(env)
 }
 
 /**
@@ -52,5 +50,4 @@ export function envToJson(): Record<string, any> {
  *
  * @type {boolean}
  */
-export const isProduction: boolean = env<string>('ATLAS_PRODUCTION', 'false') === 'true';
-
+export const isProduction: boolean = env<string>('ATLAS_PRODUCTION', 'false') === 'true'

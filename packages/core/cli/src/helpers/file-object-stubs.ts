@@ -1,8 +1,8 @@
 /**
  * Config for docker-compose yml
  */
-import { getNodeVersionNumber } from '@abstractflo/atlas-devtools';
-import inquirer from 'inquirer';
+import { getNodeVersionNumber } from '@abstractflo/atlas-devtools'
+import inquirer from 'inquirer'
 
 export const dockerCompose = {
   version: '3.3',
@@ -29,7 +29,7 @@ export const dockerCompose = {
       tty: true
     }
   }
-};
+}
 
 /**
  * Stub for game resource
@@ -40,7 +40,7 @@ export const gameResource = {
   'client-main': 'client.js',
   'client-files': [],
   deps: []
-};
+}
 
 /**
  * Stub for stream resource
@@ -49,7 +49,7 @@ export const dlcResource = {
   type: 'dlc',
   main: 'stream.cfg',
   'client-files': ['stream/*']
-};
+}
 
 /**
  * Stub for stream resource
@@ -58,7 +58,7 @@ export const streamCfg = {
   files: ['stream/assets/*'],
   meta: [],
   gxt: []
-};
+}
 
 /**
  * Stub for stream resource
@@ -66,82 +66,74 @@ export const streamCfg = {
 export const assetPackResource = {
   type: 'asset-pack',
   'client-files': ['assets/*']
-};
+}
 
 /**
  * TSConfig
  */
 export const tsConfig = {
-  'compilerOptions': {
-    'target': 'esnext',
-    'module': 'esnext',
-    'moduleResolution': 'node',
-    'lib': [
-      'es6',
-      'esnext'
-    ],
-    'typeRoots': [
-      './node_modules/@types',
-      './node_modules/@altv',
-      './node_modules/@abstractflo'
-    ],
-    'esModuleInterop': true,
-    'resolveJsonModule': true,
-    'allowJs': true,
-    'importHelpers': false,
-    'sourceMap': false,
-    'experimentalDecorators': true,
-    'emitDecoratorMetadata': true,
-    'allowSyntheticDefaultImports': true,
-    'baseUrl': '.'
+  compilerOptions: {
+    target: 'esnext',
+    module: 'esnext',
+    moduleResolution: 'node',
+    lib: ['es6', 'esnext'],
+    typeRoots: ['./node_modules/@types', './node_modules/@altv', './node_modules/@abstractflo'],
+    esModuleInterop: true,
+    resolveJsonModule: true,
+    allowJs: true,
+    importHelpers: false,
+    sourceMap: false,
+    experimentalDecorators: true,
+    emitDecoratorMetadata: true,
+    allowSyntheticDefaultImports: true,
+    baseUrl: '.'
   }
-};
+}
 
 /**
  * TS Eslint Config
  */
 export const tsEslint = {
-  'extends': './tsconfig.json',
-  'include': ['resources/**/*.ts']
-};
+  extends: './tsconfig.json',
+  include: ['resources/**/*.ts']
+}
 
 /**
  * package.json Example
  */
 export async function pkgJsonStub(name: string) {
-
-  const typesServerVersion = await getNodeVersionNumber('@altv/types-server');
-  const typesSharedVersion = await getNodeVersionNumber('@altv/types-shared');
-  const typesClientVersion = await getNodeVersionNumber('@altv/types-client');
-  const typesNativesVersion = await getNodeVersionNumber('@altv/types-natives');
+  const typesServerVersion = await getNodeVersionNumber('@altv/types-server')
+  const typesSharedVersion = await getNodeVersionNumber('@altv/types-shared')
+  const typesClientVersion = await getNodeVersionNumber('@altv/types-client')
+  const typesNativesVersion = await getNodeVersionNumber('@altv/types-natives')
 
   return {
-    'name': name,
-    'private': true,
-    'version': '1.0.0',
-    'description': '',
-    'type': 'module',
-    'scripts': {
-      'build': 'atlas build',
-      'watch': 'atlas build --watch'
+    name: name,
+    private: true,
+    version: '1.0.0',
+    description: '',
+    type: 'module',
+    scripts: {
+      build: 'atlas build',
+      watch: 'atlas build --watch'
     },
-    'keywords': [],
-    'author': '',
-    'license': 'MIT',
-    'devDependencies': {
+    keywords: [],
+    author: '',
+    license: 'MIT',
+    devDependencies: {
       '@abstractflo/atlas-cli': `^__buildNumber__`,
       '@altv/types-client': `^${typesClientVersion}`,
       '@altv/types-natives': `^${typesNativesVersion}`,
       '@altv/types-server': `^${typesServerVersion}`,
       '@altv/types-shared': `^${typesSharedVersion}`
     },
-    'dependencies': {
+    dependencies: {
       '@abstractflo/atlas-client': `^__buildNumber__`,
       '@abstractflo/atlas-server': `^__buildNumber__`,
       '@abstractflo/atlas-shared': `^__buildNumber__`
     }
-  };
-};
+  }
+}
 
 /**
  * Base Environment File
@@ -157,14 +149,14 @@ export const baseEnv = {
   atlasAutoAddResource: true,
   atlasPluginFolder: 'plugins',
   serverBranch: 'release'
-};
+}
 
 /**
  * atlas.json stub
  *
  * @type {{}}
  */
-export const atlasJson = {};
+export const atlasJson = {}
 
 /**
  * atlas-resurce.json stub
@@ -176,7 +168,7 @@ export const atlasJson = {};
 export const atlasResourceJson = (name: string, standalone: boolean) => ({
   name,
   isGameResource: standalone
-});
+})
 
 /**
  * Template for base server.cfg
@@ -209,56 +201,46 @@ export const serverCfgBase = {
     '#externalPublicHost': '',
     '#externalPublicPort': 7799
   },
-  tags: [
-    'atlas',
-    'typescript',
-    'oop'
-  ],
+  tags: ['atlas', 'typescript', 'oop'],
   '#useEarlyAuth': false,
   '#earlyAuthUrl': 'https://your.url.de',
   '#useCdn': false,
   '#cdnUrl': 'https://your.url.de'
-};
+}
 
 /**
  * ModuleClass Stub
  * @type {string[]}
  */
 export const moduleClass = {
-  fileImports: 'import { Module } from \'@abstractflo/atlas-shared\'',
+  fileImports: "import { Module } from '@abstractflo/atlas-shared'",
   decorator: '@Module({})'
-};
+}
 
 /**
  * ComponenteClass Stub
  * @type {string[]}
  */
 export const componentClass = {
-  fileImports: 'import { Component } from \'@abstractflo/atlas-shared\'',
+  fileImports: "import { Component } from '@abstractflo/atlas-shared'",
   decorator: '@Component'
-};
-
+}
 
 /**
  * ServiceClass Stub
  * @type {string[]}
  */
 export const serviceClass = {
-  fileImports: 'import { Singleton } from \'@abstractflo/atlas-shared\'',
+  fileImports: "import { Singleton } from '@abstractflo/atlas-shared'",
   decorator: '@Singleton'
-};
+}
 
 /**
  * Class Template
  *
  * @type {string[]}
  */
-export const ejsClassTemplate = [
-  '<%- fileImports; %>\n' +
-  '\n' +
-  '<%- decorator; %>\n' +
-  'export class <%- className; %> {}\n'
-].join('');
+export const ejsClassTemplate = ['<%- fileImports; %>\n' + '\n' + '<%- decorator; %>\n' + 'export class <%- className; %> {}\n'].join('')
 
 /**
  * Server Entry File
@@ -266,17 +248,18 @@ export const ejsClassTemplate = [
  * @param {string} name
  * @return {string[]}
  */
-export const serverEntryFileTemplate = (name: string) => ([
-  'import \'@abstractflo/atlas-server\';',
-  'import { app, LoaderService, UtilsService } from \'@abstractflo/atlas-shared\';',
-  'import { ServerModule } from \'./server.module\';\n',
-  'const loaderService = app.resolve(LoaderService);\n',
-  'loaderService',
-  '\t.bootstrap(ServerModule)',
-  '\t.done(() => {',
-  `\t\tUtilsService.log(\`~g~${name} loaded~w~\`);`,
-  '\t});'
-].join('\n'));
+export const serverEntryFileTemplate = (name: string) =>
+  [
+    "import '@abstractflo/atlas-server';",
+    "import { app, LoaderService, UtilsService } from '@abstractflo/atlas-shared';",
+    "import { ServerModule } from './server.module';\n",
+    'const loaderService = app.resolve(LoaderService);\n',
+    'loaderService',
+    '\t.bootstrap(ServerModule)',
+    '\t.done(() => {',
+    `\t\tUtilsService.log(\`~g~${name} loaded~w~\`);`,
+    '\t});'
+  ].join('\n')
 
 /**
  * Client Entry File
@@ -284,17 +267,18 @@ export const serverEntryFileTemplate = (name: string) => ([
  * @param {string} name
  * @return {string[]}
  */
-export const clientEntryFileTemplate = (name: string) => ([
-  'import { EventService } from \'@abstractflo/atlas-client\';',
-  'import { app, LoaderService, UtilsService } from \'@abstractflo/atlas-shared\';',
-  'import { ClientModule } from \'./client.module\';\n',
-  'const loaderService = app.resolve(LoaderService);\n',
-  'loaderService',
-  '\t.waitFor(\'connectionComplete\')',
-  '\t.bootstrap(ClientModule)',
-  '\t.done(() => {',
-  `\t\tconst eventService = app.resolve(EventService);`,
-  `\t\teventService.emitServer('playerConnected')`,
-  `\t\tUtilsService.log(\`~g~${name} loaded~w~\`);`,
-  '\t});'
-].join('\n'));
+export const clientEntryFileTemplate = (name: string) =>
+  [
+    "import { EventService } from '@abstractflo/atlas-client';",
+    "import { app, LoaderService, UtilsService } from '@abstractflo/atlas-shared';",
+    "import { ClientModule } from './client.module';\n",
+    'const loaderService = app.resolve(LoaderService);\n',
+    'loaderService',
+    "\t.waitFor('connectionComplete')",
+    '\t.bootstrap(ClientModule)',
+    '\t.done(() => {',
+    `\t\tconst eventService = app.resolve(EventService);`,
+    `\t\teventService.emitServer('playerConnected')`,
+    `\t\tUtilsService.log(\`~g~${name} loaded~w~\`);`,
+    '\t});'
+  ].join('\n')

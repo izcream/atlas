@@ -1,20 +1,19 @@
-import { Singleton } from '../decorators/framework-di.decorator';
-import { app } from '../di-container';
-import { getFrameworkMetaData } from '../decorators/helpers';
-import { constructor } from '../interfaces/constructor.interface';
-import { LoaderConstant } from '../constants/loader.constant';
-import { After } from '../decorators/loader.decorator';
+import { Singleton } from '../decorators/framework-di.decorator'
+import { app } from '../di-container'
+import { getFrameworkMetaData } from '../decorators/helpers'
+import { constructor } from '../interfaces/constructor.interface'
+import { LoaderConstant } from '../constants/loader.constant'
+import { After } from '../decorators/loader.decorator'
 
 @Singleton
 export class ModuleLoaderService {
-
   @After
   public initialize(): Promise<void> {
     return new Promise((resolve) => {
-      this.loadModules();
-      this.loadComponents();
-      resolve();
-    });
+      this.loadModules()
+      this.loadComponents()
+      resolve()
+    })
   }
 
   /**
@@ -23,8 +22,8 @@ export class ModuleLoaderService {
    * @private
    */
   private loadModules() {
-    const modules = getFrameworkMetaData<constructor<any>[]>(LoaderConstant.MODULE, this);
-    this.resolveFromContainer(modules);
+    const modules = getFrameworkMetaData<constructor<any>[]>(LoaderConstant.MODULE, this)
+    this.resolveFromContainer(modules)
   }
 
   /**
@@ -33,8 +32,8 @@ export class ModuleLoaderService {
    * @private
    */
   private loadComponents() {
-    const components = getFrameworkMetaData<constructor<any>[]>(LoaderConstant.COMPONENT, this);
-    this.resolveFromContainer(components);
+    const components = getFrameworkMetaData<constructor<any>[]>(LoaderConstant.COMPONENT, this)
+    this.resolveFromContainer(components)
   }
 
   /**
@@ -44,6 +43,6 @@ export class ModuleLoaderService {
    * @private
    */
   private resolveFromContainer(tokens: constructor<any>[]): void {
-    tokens.forEach((token: constructor<any>) => app.resolve(token));
+    tokens.forEach((token: constructor<any>) => app.resolve(token))
   }
 }

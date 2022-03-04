@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "build": "lerna run build",
+    "build:pack": "lerna run pack",
     "cleanAll": "rimraf packages/**/{dist,build,types,*.d.ts,*.tgz}",
     "bumpForRelease": "lerna version --tag-version-prefix='' --no-push"
   },
@@ -36,7 +37,8 @@
     "useTabs": false,
     "printWidth": 140,
     "singleQuote": true,
-    "trailingComma": "all",
+    "semi": false,
+    "trailingComma": "none",
     "bracketSpacing": true,
     "quoteProps": "as-needed"
   }

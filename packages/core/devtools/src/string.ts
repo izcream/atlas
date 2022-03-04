@@ -4,8 +4,8 @@
  * @param path
  */
 export function normalize(path: string) {
-  if (path.indexOf('\\') == -1) return path;
-  return path.replace(/\\/g, '/');
+  if (path.indexOf('\\') == -1) return path
+  return path.replace(/\\/g, '/')
 }
 
 export {
@@ -20,4 +20,4 @@ export {
   pathCase,
   sentenceCase,
   snakeCase
-} from 'change-case';
+} from 'change-case'

@@ -1,8 +1,8 @@
-import { app } from '../di-container';
-import { LoaderService } from '../services/loader.service';
-import { getFrameworkMetaData, registerDescriptor } from './helpers';
-import { LoaderConstant } from '../constants/loader.constant';
-import { LoaderQueueItemModel } from '../models/loader-queue-item.model';
+import { app } from '../di-container'
+import { LoaderService } from '../services/loader.service'
+import { getFrameworkMetaData, registerDescriptor } from './helpers'
+import { LoaderConstant } from '../constants/loader.constant'
+import { LoaderQueueItemModel } from '../models/loader-queue-item.model'
 
 /**
  * Decorates a method that would be run before loader start to boot
@@ -13,14 +13,10 @@ import { LoaderQueueItemModel } from '../models/loader-queue-item.model';
  * @constructor
  * @param {number} order
  */
-export const Init = (order?: number) => (target: Object, propertyKey: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor =>
-    createLoaderDecorator(
-        target,
-        propertyKey,
-        descriptor,
-        LoaderConstant.QUEUE_INIT,
-        order
-    );
+export const Init =
+  (order?: number) =>
+  (target: Object, propertyKey: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor =>
+    createLoaderDecorator(target, propertyKey, descriptor, LoaderConstant.QUEUE_INIT, order)
 
 /**
  * Decorates a method to run before after init decorators finished
@@ -32,12 +28,7 @@ export const Init = (order?: number) => (target: Object, propertyKey: PropertyKe
  * @constructor
  */
 export const Before = (target: Object, propertyKey: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor =>
-    createLoaderDecorator(
-        target,
-        propertyKey,
-        descriptor,
-        LoaderConstant.QUEUE_BEFORE
-    );
+  createLoaderDecorator(target, propertyKey, descriptor, LoaderConstant.QUEUE_BEFORE)
 
 /**
  * Decorates a method to run after the before decorator finished
@@ -49,12 +40,7 @@ export const Before = (target: Object, propertyKey: PropertyKey, descriptor: Pro
  * @constructor
  */
 export const After = (target: Object, propertyKey: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor =>
-    createLoaderDecorator(
-        target,
-        propertyKey,
-        descriptor,
-        LoaderConstant.QUEUE_AFTER
-    );
+  createLoaderDecorator(target, propertyKey, descriptor, LoaderConstant.QUEUE_AFTER)
 
 /**
  * This decorator is only for plugins they want to load  method completely after all others
@@ -68,12 +54,7 @@ export const After = (target: Object, propertyKey: PropertyKey, descriptor: Prop
  * @constructor
  */
 export const Last = (target: Object, propertyKey: PropertyKey, descriptor: PropertyDescriptor): PropertyDescriptor =>
-    createLoaderDecorator(
-        target,
-        propertyKey,
-        descriptor,
-        LoaderConstant.QUEUE_LAST
-    );
+  createLoaderDecorator(target, propertyKey, descriptor, LoaderConstant.QUEUE_LAST)
 
 /**
  * Add new item to LoaderService
@@ -81,13 +62,13 @@ export const Last = (target: Object, propertyKey: PropertyKey, descriptor: Prope
  * @param {Omit<LoaderQueueItemModel, "cast">} config
  */
 function addLoaderMetaData(config: Omit<LoaderQueueItemModel, 'cast'>): void {
-  const loaderService = app.resolve(LoaderService);
-  const queueItems = getFrameworkMetaData<LoaderQueueItemModel[]>(LoaderConstant.QUEUE_ITEM, loaderService);
+  const loaderService = app.resolve(LoaderService)
+  const queueItems = getFrameworkMetaData<LoaderQueueItemModel[]>(LoaderConstant.QUEUE_ITEM, loaderService)
 
-  const item = new LoaderQueueItemModel().cast(config);
-  queueItems.push(item);
+  const item = new LoaderQueueItemModel().cast(config)
+  queueItems.push(item)
 
-  Reflect.defineMetadata<LoaderQueueItemModel[]>(LoaderConstant.QUEUE_ITEM, queueItems, loaderService);
+  Reflect.defineMetadata<LoaderQueueItemModel[]>(LoaderConstant.QUEUE_ITEM, queueItems, loaderService)
 }
 
 /**
@@ -107,7 +88,7 @@ function createLoaderDecorator(target: Object, propertyKey: PropertyKey, descrip
     methodName: propertyKey.toLocaleString(),
     targetHash: target.constructor,
     order
-  });
+  })
 
-  return registerDescriptor(descriptor);
+  return registerDescriptor(descriptor)
 }

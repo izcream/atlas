@@ -1,11 +1,11 @@
-import { RollupOptions } from 'rollup';
+import { RollupOptions } from 'rollup'
 
 export interface ResourceCreateConfigInterface {
-  configs: RollupOptions[];
-  prepareForCopy: PrepareForCopyInterface[];
+  configs: RollupOptions[]
+  prepareForCopy: PrepareForCopyInterface[]
 }
 
 export interface PrepareForCopyInterface {
-  from: string,
+  from: string
   to: string
 }

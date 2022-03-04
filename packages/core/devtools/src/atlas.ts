@@ -1,8 +1,8 @@
-import { fsJetpack, resolveAndLoadFile } from './filesystem';
-import { PackageJson, PackageJsonAtlas } from './types';
-import { env } from './environment';
-import { stderr } from './terminal';
-import got from 'got';
+import { fsJetpack, resolveAndLoadFile } from './filesystem'
+import { PackageJson, PackageJsonAtlas } from './types'
+import { env } from './environment'
+import { stderr } from './terminal'
+import got from 'got'
 
 /**
  * Read the complete atlas.json file if exists
@@ -10,22 +10,21 @@ import got from 'got';
  * @return {Promise<object>}
  */
 export function getAtlasRc() {
-  const pathToAtlasRc = fsJetpack().path('atlas-rc.json');
-  return fsJetpack().read(pathToAtlasRc, 'json');
+  const pathToAtlasRc = fsJetpack().path('atlas-rc.json')
+  return fsJetpack().read(pathToAtlasRc, 'json')
 }
-
 
 /**
  * Read the package json from project
  */
-export const projectPkgJson: PackageJson = fsJetpack().read('package.json', 'json') as PackageJson;
+export const projectPkgJson: PackageJson = fsJetpack().read('package.json', 'json') as PackageJson
 
 /**
  * Write content to project package.json
  * @param {PackageJson} content
  */
 export function writeProjectPkgJson(content: PackageJson): void {
-  fsJetpack().write('package.json', content);
+  fsJetpack().write('package.json', content)
 }
 
 /**
@@ -33,7 +32,7 @@ export function writeProjectPkgJson(content: PackageJson): void {
  *
  * @type {string}
  */
-export const pluginFolderName = env<string>('ATLAS_PLUGIN_FOLDER', 'plugins');
+export const pluginFolderName = env<string>('ATLAS_PLUGIN_FOLDER', 'plugins')
 
 /**
  * Check if a hook exists in given package.json
@@ -42,7 +41,7 @@ export const pluginFolderName = env<string>('ATLAS_PLUGIN_FOLDER', 'plugins');
  * @param {PackageJson} packageJson
  */
 export function getHookByType(hookType: keyof PackageJsonAtlas, packageJson: PackageJson): string | undefined {
-  return packageJson?.atlas[hookType];
+  return packageJson?.atlas[hookType]
 }
 
 /**
@@ -51,12 +50,12 @@ export function getHookByType(hookType: keyof PackageJsonAtlas, packageJson: Pac
  * @return {boolean}
  */
 export function checkIfValidHook(hook: string): void {
-  const isHookFile = hook?.endsWith('.js');
-  const fileExists = fsJetpack().exists(hook);
+  const isHookFile = hook?.endsWith('.js')
+  const fileExists = fsJetpack().exists(hook)
 
-  if (fileExists && isHookFile) return;
+  if (fileExists && isHookFile) return
 
-  throw new Error(`File does not exists in ${hook}`);
+  throw new Error(`File does not exists in ${hook}`)
 }
 
 /**
@@ -67,16 +66,13 @@ export function checkIfValidHook(hook: string): void {
  * @return {Promise<void>}
  */
 export async function runHook(hookType: keyof PackageJsonAtlas, plugin: string): Promise<void> {
-  const hookPath = fsJetpack().cwd(pluginFolderName, plugin);
-  const preinstall = getHookByType(
-      hookType,
-      hookPath.read('package.json', 'json')
-  );
+  const hookPath = fsJetpack().cwd(pluginFolderName, plugin)
+  const preinstall = getHookByType(hookType, hookPath.read('package.json', 'json'))
 
-  const hookFile = hookPath.path(preinstall);
+  const hookFile = hookPath.path(preinstall)
 
-  checkIfValidHook(hookFile);
-  await resolveAndLoadFile(hookFile);
+  checkIfValidHook(hookFile)
+  await resolveAndLoadFile(hookFile)
 }
 
 /**
@@ -86,14 +82,14 @@ export async function runHook(hookType: keyof PackageJsonAtlas, plugin: string):
  * @return {Promise<string>}
  */
 export async function getNodeVersionNumber(packageName: string): Promise<string> {
-  let version = 'latest';
+  let version = 'latest'
 
   try {
-    const response = await got.get(`https://registry.npmjs.com/${packageName}/latest`).json() as Pick<PackageJson, 'version'>;
-    version = response.version;
+    const response = (await got.get(`https://registry.npmjs.com/${packageName}/latest`).json()) as Pick<PackageJson, 'version'>
+    version = response.version
   } catch (e) {
-    stderr(`There is no version found for package ${packageName} use latest instead`);
+    stderr(`There is no version found for package ${packageName} use latest instead`)
   }
 
-  return version;
+  return version
 }

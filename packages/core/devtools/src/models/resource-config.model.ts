@@ -1,22 +1,20 @@
-import { Cast, HasOne, JsonEntityModel } from '../libs/json-entity';
-import { Plugin, WatcherOptions } from 'rollup';
-import { ResourceOutputModel } from './resource-output.model';
-
+import { Cast, HasOne, JsonEntityModel } from '../libs/json-entity'
+import { Plugin, WatcherOptions } from 'rollup'
+import { ResourceOutputModel } from './resource-output.model'
 
 export class ResourceConfigModel extends JsonEntityModel {
-
   @Cast()
-  input: string;
+  input: string
 
   @HasOne(ResourceOutputModel)
   @Cast()
-  output: ResourceOutputModel = new ResourceOutputModel();
+  output: ResourceOutputModel = new ResourceOutputModel()
 
   @Cast()
-  external: string[] = ['alt-shared'];
+  external: string[] = ['alt-shared']
 
   @Cast()
-  plugins: Plugin[] = [];
+  plugins: Plugin[] = []
 
   @Cast()
   watch: Pick<WatcherOptions, 'clearScreen' | 'chokidar'> = {
@@ -24,6 +22,5 @@ export class ResourceConfigModel extends JsonEntityModel {
     chokidar: {
       alwaysStat: true
     }
-  };
-
+  }
 }

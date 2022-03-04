@@ -1,66 +1,65 @@
-import { app, constructor, getFrameworkMetaData, Internal, Singleton, UtilsService } from '@abstractflo/atlas-shared';
-import { Vector2, WebView } from 'alt-client';
-import { removeAllCursors, removeCursor, showCursor, WebviewOnEvent } from '../helpers';
-import { OnGuiModel } from '../models/on-gui.model';
-import { EventService } from './event.service';
+import { app, constructor, getFrameworkMetaData, Internal, Singleton, UtilsService } from '@abstractflo/atlas-shared'
+import { Vector2, WebView } from 'alt-client'
+import { removeAllCursors, removeCursor, showCursor, WebviewOnEvent } from '../helpers'
+import { OnGuiModel } from '../models/on-gui.model'
+import { EventService } from './event.service'
 
 @Singleton
 export class WebviewService {
-
   /**
    * Url for webview
    *
    * @type {string}
    */
-  public url: string;
+  public url: string
 
   /**
    * Contains the name as identifier for reflection
    *
    * @type {string}
    */
-  public name: string;
+  public name: string
 
   /**
    * Render as overlay
    *
    * @type {boolean}
    */
-  public isOverlay: boolean = false;
+  public isOverlay: boolean = false
 
   /**
    * Custom webview postion
    * @type {Vector2}
    */
-  public position: Vector2;
+  public position: Vector2
 
   /**
    * Custom Webview Size
    *
    * @type {Vector2}
    */
-  public size: Vector2;
+  public size: Vector2
 
   /**
    * Hash of objet to render on
    *
    * @type {number}
    */
-  public propHash: number;
+  public propHash: number
 
   /**
    * Name of objects texture to replace
    *
    * @type {string}
    */
-  public targetTexture: string;
+  public targetTexture: string
 
   /**
    * Route name event if the webview is an spa
    * @type {string}
    * @protected
    */
-  protected routeToEventName: string = 'routeTo';
+  protected routeToEventName: string = 'routeTo'
 
   /**
    * Contains the webview instance
@@ -68,7 +67,7 @@ export class WebviewService {
    * @type {WebView}
    * @private
    */
-  private webView: WebView;
+  private webView: WebView
 
   /**
    * Return the alt:V CEF Instance
@@ -76,12 +75,10 @@ export class WebviewService {
    * @return {WebView}
    */
   get webviewInstance(): WebView {
-    return this.webView;
+    return this.webView
   }
 
-  constructor(
-      private readonly eventService: EventService
-  ) {}
+  constructor(private readonly eventService: EventService) {}
 
   /**
    * Start the webview instance
@@ -91,20 +88,18 @@ export class WebviewService {
   public start(): Promise<WebView | Error> {
     return new Promise((resolve, reject) => {
       if (!this.url) {
-        reject(new Error('No route defined'));
+        reject(new Error('No route defined'))
       }
 
-      this.webView = this.loadSpecificWebview();
+      this.webView = this.loadSpecificWebview()
 
       this.webView.on('load', () => {
-        this.setupReflection();
-        this.sendEventToServer();
-        this.receiveEventFromServer();
-        resolve(this.webView);
-      });
-
-
-    });
+        this.setupReflection()
+        this.sendEventToServer()
+        this.receiveEventFromServer()
+        resolve(this.webView)
+      })
+    })
   }
 
   /**
@@ -113,8 +108,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public showCursor(): WebviewService {
-    showCursor();
-    return this;
+    showCursor()
+    return this
   }
 
   /**
@@ -123,8 +118,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public removeCursor(): WebviewService {
-    removeCursor();
-    return this;
+    removeCursor()
+    return this
   }
 
   /**
@@ -133,8 +128,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public removeAllCursor(): WebviewService {
-    removeAllCursors();
-    return this;
+    removeAllCursors()
+    return this
   }
 
   /**
@@ -143,8 +138,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public focus(): WebviewService {
-    this.webView.focus();
-    return this;
+    this.webView.focus()
+    return this
   }
 
   /**
@@ -153,8 +148,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public unfocus(): WebviewService {
-    this.webView.unfocus();
-    return this;
+    this.webView.unfocus()
+    return this
   }
 
   /**
@@ -162,7 +157,7 @@ export class WebviewService {
    */
   public destroy(): void {
     if (this.webView.valid) {
-      this.webView.destroy();
+      this.webView.destroy()
     }
   }
 
@@ -174,8 +169,8 @@ export class WebviewService {
    * @return {WebviewService}
    */
   public emit(eventName: string, ...args: any[]): WebviewService {
-    this.webView.emit(eventName, ...args);
-    return this;
+    this.webView.emit(eventName, ...args)
+    return this
   }
 
   /**
@@ -185,7 +180,7 @@ export class WebviewService {
    * @param {(...args: any[]) => void} listener
    */
   public on(eventName: string, listener: (...args: any[]) => void) {
-    this.webView.on(eventName, listener);
+    this.webView.on(eventName, listener)
   }
 
   /**
@@ -195,7 +190,7 @@ export class WebviewService {
    * @param {(...args: any[]) => void} listener
    */
   public once(eventName: string, listener: (...args: any[]) => void) {
-    this.webView.once(eventName, listener);
+    this.webView.once(eventName, listener)
   }
 
   /**
@@ -205,19 +200,19 @@ export class WebviewService {
    * @private
    */
   private loadSpecificWebview(): WebView {
-    let webview: WebView;
+    let webview: WebView
 
     if (this.propHash && this.targetTexture) {
-      webview = new WebView(this.url, this.propHash, this.targetTexture);
+      webview = new WebView(this.url, this.propHash, this.targetTexture)
     } else if (this.position || (this.position && this.size)) {
-      webview = new WebView(this.url, this.position, this?.size);
+      webview = new WebView(this.url, this.position, this?.size)
     } else if (this.isOverlay && this.position && this.size) {
-      webview = new WebView(this.url, this.isOverlay, this.position, this.size);
+      webview = new WebView(this.url, this.isOverlay, this.position, this.size)
     } else {
-      webview = new WebView(this.url, this.isOverlay);
+      webview = new WebView(this.url, this.isOverlay)
     }
 
-    return webview;
+    return webview
   }
 
   /**
@@ -225,25 +220,25 @@ export class WebviewService {
    * @private
    */
   private setupReflection(): void {
-    const events = getFrameworkMetaData<OnGuiModel[]>(WebviewOnEvent, app.resolve(WebviewService));
-    const neededEvents = events.filter((event: OnGuiModel) => event.identifier === this.name);
+    const events = getFrameworkMetaData<OnGuiModel[]>(WebviewOnEvent, app.resolve(WebviewService))
+    const neededEvents = events.filter((event: OnGuiModel) => event.identifier === this.name)
 
     neededEvents.forEach((event: OnGuiModel) => {
-      const instances = app.resolveAll<constructor<any>>(event.targetName);
+      const instances = app.resolveAll<constructor<any>>(event.targetName)
 
       instances.forEach((instance: constructor<any>) => {
-        const instanceMethod = instance[event.methodName];
+        const instanceMethod = instance[event.methodName]
 
-        if (!instanceMethod) return;
+        if (!instanceMethod) return
 
-        const method = this.on.bind(this, event.eventName, instanceMethod.bind(instance));
+        const method = this.on.bind(this, event.eventName, instanceMethod.bind(instance))
 
-        method();
-      });
-    });
+        method()
+      })
+    })
 
     if (neededEvents.length) {
-      UtilsService.logRegisteredHandlers(`[${this.name}]: WebViewService`, neededEvents.length);
+      UtilsService.logRegisteredHandlers(`[${this.name}]: WebViewService`, neededEvents.length)
     }
   }
 
@@ -254,8 +249,8 @@ export class WebviewService {
    */
   private sendEventToServer(): void {
     this.on(Internal.Events_Gui_Server, (eventName: string, ...args: any[]) => {
-      this.eventService.emitServer(Internal.Events_Gui_Server, eventName, ...args);
-    });
+      this.eventService.emitServer(Internal.Events_Gui_Server, eventName, ...args)
+    })
   }
 
   /**
@@ -265,7 +260,7 @@ export class WebviewService {
    */
   private receiveEventFromServer(): void {
     this.eventService.onServer(Internal.Events_Server_Gui, (eventName: string, ...args: any[]) => {
-      this.emit(eventName, ...args);
-    });
+      this.emit(eventName, ...args)
+    })
   }
 }

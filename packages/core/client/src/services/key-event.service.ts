@@ -1,6 +1,5 @@
-import { app, constructor, EventModel, Singleton, ValidateOptionsModel } from '@abstractflo/atlas-shared';
-import { Player } from 'alt-client';
-
+import { app, constructor, EventModel, Singleton, ValidateOptionsModel } from '@abstractflo/atlas-shared'
+import { Player } from 'alt-client'
 
 @Singleton
 export class KeyEventService {
@@ -10,7 +9,7 @@ export class KeyEventService {
    * @type {Map<string, EventModel[]>}
    * @private
    */
-  private keyEvents: Map<string, EventModel[]> = new Map<string, EventModel[]>();
+  private keyEvents: Map<string, EventModel[]> = new Map<string, EventModel[]>()
 
   /**
    * Setup all given key events
@@ -18,7 +17,7 @@ export class KeyEventService {
    * @param {EventModel[]} events
    */
   public setupKeys(events: EventModel[]) {
-    events.forEach((event: EventModel) => this.add(event));
+    events.forEach((event: EventModel) => this.add(event))
   }
 
   /**
@@ -28,23 +27,23 @@ export class KeyEventService {
    * @param {string} eventType
    */
   public run(key: number, eventType: string): void {
-    const keyEvents = this.keyEvents.get(eventType);
-    const dummyValidateOptions = new ValidateOptionsModel().cast({ keyboardKey: key });
-    const dummyKeyEvent = new EventModel().cast({ validateOptions: dummyValidateOptions });
-    const keyExists = this.keyExists(keyEvents, dummyKeyEvent);
+    const keyEvents = this.keyEvents.get(eventType)
+    const dummyValidateOptions = new ValidateOptionsModel().cast({ keyboardKey: key })
+    const dummyKeyEvent = new EventModel().cast({ validateOptions: dummyValidateOptions })
+    const keyExists = this.keyExists(keyEvents, dummyKeyEvent)
 
-    if (!keyExists) return;
+    if (!keyExists) return
 
-    const instances = app.resolveAll<constructor<any>>(keyExists.targetName);
+    const instances = app.resolveAll<constructor<any>>(keyExists.targetName)
 
     instances.forEach(async (instance: constructor<any>) => {
-      const instanceMethod = instance[keyExists.methodName];
+      const instanceMethod = instance[keyExists.methodName]
 
-      if (!instanceMethod) return;
+      if (!instanceMethod) return
 
-      const method = instanceMethod.bind(instance);
-      await method(Player.local);
-    });
+      const method = instanceMethod.bind(instance)
+      await method(Player.local)
+    })
   }
 
   /**
@@ -55,15 +54,15 @@ export class KeyEventService {
    */
   private add(event: EventModel): void {
     if (!this.keyEvents.has(event.type)) {
-      this.keyEvents.set(event.type, []);
+      this.keyEvents.set(event.type, [])
     }
 
-    const keyEvents = this.keyEvents.get(event.type);
-    const keyExists = !!this.keyExists(keyEvents, event);
+    const keyEvents = this.keyEvents.get(event.type)
+    const keyExists = !!this.keyExists(keyEvents, event)
 
-    if (keyExists) return;
+    if (keyExists) return
 
-    keyEvents.push(event);
+    keyEvents.push(event)
   }
 
   /**
@@ -75,8 +74,6 @@ export class KeyEventService {
    * @private
    */
   private keyExists(keyEvents: EventModel[], event: EventModel): EventModel | undefined {
-    return keyEvents.find(
-        (keyEvent: EventModel) => keyEvent.validateOptions.keyboardKey === event.validateOptions.keyboardKey
-    );
+    return keyEvents.find((keyEvent: EventModel) => keyEvent.validateOptions.keyboardKey === event.validateOptions.keyboardKey)
   }
 }

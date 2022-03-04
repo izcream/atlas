@@ -1,4 +1,4 @@
-import { cfgFromObject, renderTemplateFromString } from '@abstractflo/atlas-devtools';
+import { cfgFromObject, renderTemplateFromString } from '@abstractflo/atlas-devtools'
 import {
   atlasResourceJson,
   clientEntryFileTemplate,
@@ -6,7 +6,7 @@ import {
   gameResource,
   moduleClass,
   serverEntryFileTemplate
-} from './file-object-stubs';
+} from './file-object-stubs'
 
 /**
  * Gameresource installer file setup array
@@ -31,7 +31,7 @@ export const gameResourceInstallerFiles = async (resourceName: string, isStandal
       file: await renderTemplateFromString(ejsClassTemplate, { className: 'ClientModule', ...moduleClass })
     },
     { name: `${resourceName}/client/index.ts`, file: clientEntryFileTemplate(resourceName), standalone: true },
-    { name: `${resourceName}/atlas-resource.json`, file: atlasResourceJson(resourceName, isStandalone) },
+    { name: `${resourceName}/resource.json`, file: atlasResourceJson(resourceName, isStandalone) },
     { name: `${resourceName}/assets/resource.cfg`, file: cfgFromObject(gameResource), standalone: true }
   ]
-};
+}

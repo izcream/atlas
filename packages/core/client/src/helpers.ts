@@ -1,27 +1,27 @@
-import * as alt from 'alt-client';
-import { app, constructor } from '@abstractflo/atlas-shared';
-import { WebviewService } from './services/webview.service';
+import * as alt from 'alt-client'
+import { app, constructor } from '@abstractflo/atlas-shared'
+import { WebviewService } from './services/webview.service'
 
 /**
  * Symbol for reflection
  *
  * @type {typeof WebviewOnEvent}
  */
-export const WebviewOnEvent = Symbol('webiew:on:event');
+export const WebviewOnEvent = Symbol('webiew:on:event')
 
 /**
  * Contains the cursor count
  *
  * @type {number}
  */
-let cursorCount: number = 0;
+let cursorCount: number = 0
 
 /**
  * Show ui cursor and increase cursor count
  */
 export function showCursor(): void {
-  alt.showCursor(true);
-  cursorCount++;
+  alt.showCursor(true)
+  cursorCount++
 }
 
 /**
@@ -29,8 +29,8 @@ export function showCursor(): void {
  */
 export function removeCursor(): void {
   if (cursorCount > 0) {
-    alt.showCursor(false);
-    cursorCount--;
+    alt.showCursor(false)
+    cursorCount--
   }
 }
 
@@ -39,9 +39,9 @@ export function removeCursor(): void {
  */
 export function removeAllCursors(): void {
   for (let i = 0; i < cursorCount; i++) {
-    alt.showCursor(false);
+    alt.showCursor(false)
   }
-  cursorCount = 0;
+  cursorCount = 0
 }
 
 /**
@@ -51,6 +51,5 @@ export function removeAllCursors(): void {
  * @return {WebviewService}
  */
 export function getWebviewInstance(instance: constructor<any>): WebviewService {
-  return app.resolve(instance);
+  return app.resolve(instance)
 }
-

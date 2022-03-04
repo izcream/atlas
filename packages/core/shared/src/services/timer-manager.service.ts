@@ -1,12 +1,12 @@
-import { RunningTimerInterface } from '../interfaces/running-timer.interface';
-import { UtilsService } from './utils.service';
-import { Last } from '../decorators/loader.decorator';
-import { TimerModel } from '../models/timer.model';
-import { getFrameworkMetaData } from '../decorators/helpers';
-import { constructor } from '../interfaces/constructor.interface';
-import { Internal } from '../internal';
-import { app } from '../di-container';
-import { Singleton } from '../decorators/framework-di.decorator';
+import { RunningTimerInterface } from '../interfaces/running-timer.interface'
+import { UtilsService } from './utils.service'
+import { Last } from '../decorators/loader.decorator'
+import { TimerModel } from '../models/timer.model'
+import { getFrameworkMetaData } from '../decorators/helpers'
+import { constructor } from '../interfaces/constructor.interface'
+import { Internal } from '../internal'
+import { app } from '../di-container'
+import { Singleton } from '../decorators/framework-di.decorator'
 
 @Singleton
 export class TimerManagerService {
@@ -16,7 +16,7 @@ export class TimerManagerService {
    * @type {Map<string, RunningTimerInterface>}
    * @protected
    */
-  protected runningTimers: Map<string, RunningTimerInterface> = new Map<string, RunningTimerInterface>();
+  protected runningTimers: Map<string, RunningTimerInterface> = new Map<string, RunningTimerInterface>()
 
   /**
    * Register and resolve reflection data
@@ -25,11 +25,11 @@ export class TimerManagerService {
    */
   @Last
   public async load(): Promise<void> {
-    const timerCount = await this.registerAndResolveTimers();
+    const timerCount = await this.registerAndResolveTimers()
 
     if (timerCount > 0) {
-      UtilsService.logRegisteredHandlers('TimerManagerService', timerCount);
-      UtilsService.logLoaded('TimerManagerService');
+      UtilsService.logRegisteredHandlers('TimerManagerService', timerCount)
+      UtilsService.logLoaded('TimerManagerService')
     }
   }
 
@@ -39,12 +39,12 @@ export class TimerManagerService {
    * @param {string} timerName
    */
   public clearRunningTimer(timerName: string): void {
-    const runningTimer = this.runningTimers.get(timerName);
+    const runningTimer = this.runningTimers.get(timerName)
 
-    if (!runningTimer) return;
+    if (!runningTimer) return
 
-    this.clearTimer(runningTimer);
-    this.runningTimers.delete(timerName);
+    this.clearTimer(runningTimer)
+    this.runningTimers.delete(timerName)
   }
 
   /**
@@ -52,10 +52,10 @@ export class TimerManagerService {
    *
    */
   public clearAllRunningTimers(): void {
-    const runningTimers = Array.from(this.runningTimers.values());
+    const runningTimers = Array.from(this.runningTimers.values())
 
-    runningTimers.forEach((runningTimer: RunningTimerInterface) => this.clearTimer(runningTimer));
-    this.runningTimers.clear();
+    runningTimers.forEach((runningTimer: RunningTimerInterface) => this.clearTimer(runningTimer))
+    this.runningTimers.clear()
   }
 
   /**
@@ -68,14 +68,14 @@ export class TimerManagerService {
    */
   public createInterval(timerName: string, callback: CallableFunction, interval: number): TimerManagerService | void {
     if (this.runningTimers.get(timerName)) {
-      UtilsService.logError(`There is a timer with name ${timerName} already registered`);
-      return;
+      UtilsService.logError(`There is a timer with name ${timerName} already registered`)
+      return
     }
 
-    const identifier = UtilsService.setInterval(() => callback(this), interval);
+    const identifier = UtilsService.setInterval(() => callback(this), interval)
 
-    this.runningTimers.set(timerName, { type: 'interval', identifier });
-    return this;
+    this.runningTimers.set(timerName, { type: 'interval', identifier })
+    return this
   }
 
   /**
@@ -87,14 +87,14 @@ export class TimerManagerService {
    */
   public createEveryTick(timerName: string, callback: CallableFunction): TimerManagerService | void {
     if (this.runningTimers.get(timerName)) {
-      UtilsService.logError(`There is a timer with name ${timerName} already registered`);
-      return;
+      UtilsService.logError(`There is a timer with name ${timerName} already registered`)
+      return
     }
 
-    const identifier = UtilsService.everyTick(() => callback(this));
+    const identifier = UtilsService.everyTick(() => callback(this))
 
-    this.runningTimers.set(timerName, { type: 'everyTick', identifier });
-    return this;
+    this.runningTimers.set(timerName, { type: 'everyTick', identifier })
+    return this
   }
 
   /**
@@ -106,14 +106,14 @@ export class TimerManagerService {
    */
   public createNextTick(timerName: string, callback: CallableFunction): TimerManagerService | void {
     if (this.runningTimers.get(timerName)) {
-      UtilsService.logError(`There is a timer with name ${timerName} already registered`);
-      return;
+      UtilsService.logError(`There is a timer with name ${timerName} already registered`)
+      return
     }
 
-    const identifier = UtilsService.nextTick(() => callback(this));
+    const identifier = UtilsService.nextTick(() => callback(this))
 
-    this.runningTimers.set(timerName, { type: 'nextTick', identifier });
-    return this;
+    this.runningTimers.set(timerName, { type: 'nextTick', identifier })
+    return this
   }
 
   /**
@@ -126,14 +126,14 @@ export class TimerManagerService {
    */
   public createTimeout(timerName: string, callback: CallableFunction, duration: number): TimerManagerService | void {
     if (this.runningTimers.get(timerName)) {
-      UtilsService.logError(`There is a timer with name ${timerName} already registered`);
-      return;
+      UtilsService.logError(`There is a timer with name ${timerName} already registered`)
+      return
     }
 
-    const identifier = UtilsService.setTimeout(() => callback(this), duration);
+    const identifier = UtilsService.setTimeout(() => callback(this), duration)
 
-    this.runningTimers.set(timerName, { type: 'timeout', identifier });
-    return this;
+    this.runningTimers.set(timerName, { type: 'timeout', identifier })
+    return this
   }
 
   /**
@@ -145,17 +145,17 @@ export class TimerManagerService {
   private clearTimer(runningTimer: RunningTimerInterface) {
     switch (runningTimer.type) {
       case 'nextTick':
-        UtilsService.clearNextTick(runningTimer.identifier);
-        break;
+        UtilsService.clearNextTick(runningTimer.identifier)
+        break
       case 'everyTick':
-        UtilsService.clearEveryTick(runningTimer.identifier);
-        break;
+        UtilsService.clearEveryTick(runningTimer.identifier)
+        break
       case 'interval':
-        UtilsService.clearInterval(runningTimer.identifier);
-        break;
+        UtilsService.clearInterval(runningTimer.identifier)
+        break
       case 'timeout':
-        UtilsService.clearTimeout(runningTimer.identifier);
-        break;
+        UtilsService.clearTimeout(runningTimer.identifier)
+        break
     }
   }
 
@@ -169,17 +169,17 @@ export class TimerManagerService {
   private startTimer(timer: TimerModel, callback: CallableFunction) {
     switch (timer.type) {
       case 'timeout':
-        this.createTimeout(timer.identifier, callback, timer.duration);
-        break;
+        this.createTimeout(timer.identifier, callback, timer.duration)
+        break
       case 'interval':
-        this.createInterval(timer.identifier, callback, timer.duration);
-        break;
+        this.createInterval(timer.identifier, callback, timer.duration)
+        break
       case 'nextTick':
-        this.createNextTick(timer.identifier, callback);
-        break;
+        this.createNextTick(timer.identifier, callback)
+        break
       case 'everyTick':
-        this.createEveryTick(timer.identifier, callback);
-        break;
+        this.createEveryTick(timer.identifier, callback)
+        break
     }
   }
 
@@ -189,25 +189,25 @@ export class TimerManagerService {
    * @private
    */
   private registerAndResolveTimers(): Promise<number> {
-    let timerCount = 0;
-    const timers = getFrameworkMetaData<TimerModel[]>(Internal.Timer_Manager, this, []);
+    let timerCount = 0
+    const timers = getFrameworkMetaData<TimerModel[]>(Internal.Timer_Manager, this, [])
 
     return new Promise((resolve) => {
       timers.forEach((timer: TimerModel) => {
-        const instances = app.resolveAll<constructor<any>>(timer.targetName);
+        const instances = app.resolveAll<constructor<any>>(timer.targetName)
 
         instances.forEach((instance: constructor<any>) => {
-          const instanceMethod = instance[timer.methodName];
+          const instanceMethod = instance[timer.methodName]
 
-          if (!instanceMethod) return;
+          if (!instanceMethod) return
 
-          const method = instanceMethod.bind(instance);
-          this.startTimer(timer, method);
-          timerCount++;
-        });
-      });
+          const method = instanceMethod.bind(instance)
+          this.startTimer(timer, method)
+          timerCount++
+        })
+      })
 
-      return resolve(timerCount);
-    });
+      return resolve(timerCount)
+    })
   }
 }

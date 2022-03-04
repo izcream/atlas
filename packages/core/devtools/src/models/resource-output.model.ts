@@ -1,21 +1,20 @@
-import type { ModuleFormat } from 'rollup';
-import { OutputOptions } from 'rollup';
-import { Cast, JsonEntityModel } from '../libs/json-entity';
+import type { ModuleFormat } from 'rollup'
+import { OutputOptions } from 'rollup'
+import { Cast, JsonEntityModel } from '../libs/json-entity'
 
 export class ResourceOutputModel extends JsonEntityModel implements OutputOptions {
+  @Cast()
+  format: ModuleFormat = 'esm'
 
   @Cast()
-  format: ModuleFormat = 'esm';
+  inlineDynamicImports: boolean = true
 
   @Cast()
-  inlineDynamicImports: boolean = true;
+  preserveModules: boolean = false
 
   @Cast()
-  preserveModules: boolean = false;
+  file?: string
 
   @Cast()
-  file?: string;
-
-  @Cast()
-  dir?: string;
+  dir?: string
 }

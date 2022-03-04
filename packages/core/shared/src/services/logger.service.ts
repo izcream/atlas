@@ -1,5 +1,5 @@
-import { UtilsService } from './utils.service';
-import { Injectable } from '../decorators/framework-di.decorator';
+import { UtilsService } from './utils.service'
+import { Injectable } from '../decorators/framework-di.decorator'
 
 @Injectable
 export class LoggerService {
@@ -9,7 +9,7 @@ export class LoggerService {
    * @param messages
    */
   public info(...messages: any[]): void {
-    UtilsService.log(messages);
+    UtilsService.log(messages)
   }
 
   /**
@@ -18,7 +18,7 @@ export class LoggerService {
    * @param messages
    */
   public warning(...messages: any[]): void {
-    UtilsService.logWarning(messages);
+    UtilsService.logWarning(messages)
   }
 
   /**
@@ -27,7 +27,7 @@ export class LoggerService {
    * @param messages
    */
   public error(...messages: any[]): void {
-    UtilsService.logError(messages);
+    UtilsService.logError(messages)
   }
 
   /**
@@ -36,7 +36,7 @@ export class LoggerService {
    * @param messages
    */
   public loaded(...messages: any[]): void {
-    UtilsService.logLoaded(messages);
+    UtilsService.logLoaded(messages)
   }
 
   /**
@@ -45,6 +45,6 @@ export class LoggerService {
    * @param messages
    */
   public unloaded(...messages: any[]): void {
-    UtilsService.logLoaded(messages);
+    UtilsService.logLoaded(messages)
   }
 }

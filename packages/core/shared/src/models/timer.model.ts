@@ -1,19 +1,18 @@
-import { Cast, JsonEntityModel } from '../libs/json-entity';
-
+import { Cast, JsonEntityModel } from '../libs/json-entity'
 
 export class TimerModel extends JsonEntityModel {
   @Cast()
-  public identifier: string;
+  public identifier: string
 
   @Cast()
-  public type: 'nextTick' | 'everyTick' | 'interval' | 'timeout';
+  public type: 'nextTick' | 'everyTick' | 'interval' | 'timeout'
 
   @Cast()
-  public methodName: string;
+  public methodName: string
 
   @Cast()
-  public targetName: string;
+  public targetName: string
 
   @Cast()
-  public duration: number | null = null;
+  public duration: number | null = null
 }

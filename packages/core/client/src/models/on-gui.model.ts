@@ -1,16 +1,15 @@
-import { Cast, JsonEntityModel } from '@abstractflo/atlas-shared';
+import { Cast, JsonEntityModel } from '@abstractflo/atlas-shared'
 
 export class OnGuiModel extends JsonEntityModel {
+  @Cast()
+  eventName: string
 
   @Cast()
-  eventName: string;
+  targetName: string
 
   @Cast()
-  targetName: string;
+  methodName: string
 
   @Cast()
-  methodName: string;
-
-  @Cast()
-  identifier: string;
+  identifier: string
 }

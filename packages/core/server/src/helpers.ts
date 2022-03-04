@@ -3,6 +3,6 @@
  */
 export function defaultErrorHandling(): void {
   process.on('uncaughtException', (err: Error) => {
-    console.log(err.stack);
-  });
+    console.log(err.stack)
+  })
 }

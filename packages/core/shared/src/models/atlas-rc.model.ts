@@ -1,10 +1,9 @@
-import { Cast, JsonEntityModel } from '../libs/json-entity';
+import { Cast, JsonEntityModel } from '../libs/json-entity'
 
 export class AtlasRcModel extends JsonEntityModel {
+  @Cast()
+  hooks: string[] = []
 
   @Cast()
-  hooks: string[] = [];
-
-  @Cast()
-  autoload: string[] = [];
+  autoload: string[] = []
 }

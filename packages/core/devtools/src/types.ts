@@ -1,23 +1,23 @@
 export interface PackageJson {
-  name: string;
-  version: string;
-  type: string;
+  name: string
+  version: string
+  type: string
 
-  devDependencies: PackageJsonDep,
-  dependencies: PackageJsonDep,
+  devDependencies: PackageJsonDep
+  dependencies: PackageJsonDep
 
   atlas: PackageJsonAtlas
 }
 
-export type PackageJsonDep = Record<string, string>;
+export type PackageJsonDep = Record<string, string>
 
 /**
  * Define atlas keywords
  */
 export interface PackageJsonAtlas {
-  postinstall?: string;
-  preinstall?: string;
-  postupdate?: string;
-  preupdate?: string;
-  cli?: string;
+  postinstall?: string
+  preinstall?: string
+  postupdate?: string
+  preupdate?: string
+  cli?: string
 }

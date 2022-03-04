@@ -1,17 +1,16 @@
-import { BaseEventService, CommandService, EventModel, Internal, Last, Singleton } from '@abstractflo/atlas-shared';
-import { emit, emitServer, offServer, onceServer, onServer } from 'alt-client';
-import { KeyEventService } from './key-event.service';
+import { BaseEventService, CommandService, EventModel, Internal, Last, Singleton } from '@abstractflo/atlas-shared'
+import { emit, emitServer, offServer, onceServer, onServer } from 'alt-client'
+import { KeyEventService } from './key-event.service'
 
 @Singleton
 export class EventService extends BaseEventService {
-
   /**
    * Contains the off event methods
    *
    * @type {Map<string, any>}
    * @private
    */
-  protected offServerEventsMap: Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>();
+  protected offServerEventsMap: Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>()
 
   /**
    * Contains all key event keys
@@ -19,10 +18,10 @@ export class EventService extends BaseEventService {
    * @type {string[]}
    * @private
    */
-  private keyEvents: string[] = [Internal.Events_Key_Down, Internal.Events_Key_Up];
+  private keyEvents: string[] = [Internal.Events_Key_Down, Internal.Events_Key_Up]
 
   constructor(protected readonly commandService: CommandService, private readonly keyEventService: KeyEventService) {
-    super(commandService);
+    super(commandService)
   }
 
   /**
@@ -32,7 +31,7 @@ export class EventService extends BaseEventService {
    * @param args
    */
   public emitServer(name: string, ...args: any[]): void {
-    emitServer(name, ...args);
+    emitServer(name, ...args)
   }
 
   /**
@@ -41,13 +40,10 @@ export class EventService extends BaseEventService {
    * @param {string} name
    * @param {(...args: any[]) => void} listener
    */
-  public offServer(eventName: string): void;
-  public offServer(eventName: string, listener: (...args: any[]) => void): void;
+  public offServer(eventName: string): void
+  public offServer(eventName: string, listener: (...args: any[]) => void): void
   public offServer(eventName: string, listener?: (...args: any[]) => void): void {
-    listener
-        ? offServer(eventName, listener)
-        : this.processOffEvent(eventName, this.offServerEventsMap);
-
+    listener ? offServer(eventName, listener) : this.processOffEvent(eventName, this.offServerEventsMap)
   }
 
   /**
@@ -56,13 +52,13 @@ export class EventService extends BaseEventService {
    * @param {string} name
    * @param {(...args: any[]) => void} listener
    */
-  public onServer(eventName: string, listener: (...args: any[]) => void): void;
-  public onServer(eventName: string, listener: (...args: any[]) => void, resetable: boolean): void;
+  public onServer(eventName: string, listener: (...args: any[]) => void): void
+  public onServer(eventName: string, listener: (...args: any[]) => void, resetable: boolean): void
   public onServer(eventName: string, listener: (...args: any[]) => void, resetable?: boolean) {
-    onServer(eventName, listener);
+    onServer(eventName, listener)
 
     if (resetable) {
-      this.registerAnonymusOffEvents(this.offServer, eventName, listener);
+      this.registerAnonymusOffEvents(this.offServer, eventName, listener)
     }
   }
 
@@ -73,7 +69,7 @@ export class EventService extends BaseEventService {
    * @param {(...args: any[]) => void} listener
    */
   public onceServer(name: string, listener: (...args: any[]) => void): void {
-    onceServer(name, listener);
+    onceServer(name, listener)
   }
 
   /**
@@ -83,7 +79,7 @@ export class EventService extends BaseEventService {
    * @param {(...args: any[]) => void} listener
    */
   public onGui(eventName: string, listener: (...args: any[]) => void): void {
-    emit(Internal.Webview_Gui_On, eventName, listener);
+    emit(Internal.Webview_Gui_On, eventName, listener)
   }
 
   /**
@@ -93,8 +89,8 @@ export class EventService extends BaseEventService {
    */
   @Last
   protected async start(): Promise<void> {
-    await super.listenToEvents();
-    await this.resolveAndLoadEvents(this.keyEvents, 'KeyEvents', this.listenToKeyEvents.bind(this));
+    await super.listenToEvents()
+    await this.resolveAndLoadEvents(this.keyEvents, 'KeyEvents', this.listenToKeyEvents.bind(this))
   }
 
   /**
@@ -104,11 +100,11 @@ export class EventService extends BaseEventService {
    * @private
    */
   private listenToKeyEvents(events: EventModel[]): void {
-    const eventType = events[0].type;
-    this.keyEventService.setupKeys(events);
+    const eventType = events[0].type
+    this.keyEventService.setupKeys(events)
 
     this.on(eventType, (key: number) => {
-      this.keyEventService.run(key, eventType);
-    });
+      this.keyEventService.run(key, eventType)
+    })
   }
 }

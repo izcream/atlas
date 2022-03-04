@@ -1,4 +1,4 @@
-import { isAbsolute, relative, resolve } from 'path';
+import { isAbsolute, relative, resolve } from 'path'
 
 /**
  * Get the relativeId for given id
@@ -7,6 +7,6 @@ import { isAbsolute, relative, resolve } from 'path';
  * @return {string}
  */
 export function relativeId(id: string) {
-  if (!isAbsolute(id)) return id;
-  return relative(resolve(), id);
+  if (!isAbsolute(id)) return id
+  return relative(resolve(), id)
 }

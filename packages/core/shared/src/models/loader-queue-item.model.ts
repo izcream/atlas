@@ -1,20 +1,18 @@
-import { Cast, JsonEntityModel } from '../libs/json-entity';
+import { Cast, JsonEntityModel } from '../libs/json-entity'
 
 export class LoaderQueueItemModel extends JsonEntityModel {
+  @Cast()
+  type: symbol
 
   @Cast()
-  type: symbol;
+  target: string
 
   @Cast()
-  target: string;
+  targetHash: Object
 
   @Cast()
-  targetHash: Object;
+  methodName: string
 
   @Cast()
-  methodName: string;
-
-  @Cast()
-  order: number = 0;
-
+  order: number = 0
 }

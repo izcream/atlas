@@ -1,9 +1,9 @@
-import { CopyOptions, ExistsResult, FindOptions, FSJetpack } from 'fs-jetpack/types';
-import jetpack, { file } from 'fs-jetpack';
-import { render, renderFile } from 'ejs';
-import { dotCase, normalize, pascalCase } from './string';
-import { errorMessage, successMessage } from './terminal';
-import { pathToFileURL } from 'url';
+import { CopyOptions, ExistsResult, FindOptions, FSJetpack } from 'fs-jetpack/types'
+import jetpack, { file } from 'fs-jetpack'
+import { render, renderFile } from 'ejs'
+import { dotCase, normalize, pascalCase } from './string'
+import { errorMessage, successMessage } from './terminal'
+import { pathToFileURL } from 'url'
 
 /**
  * Check if given path exists under current working dir
@@ -12,7 +12,7 @@ import { pathToFileURL } from 'url';
  * @param {FSJetpack} fsJetpack
  */
 export function hasFolder(path: string, fsJetpack: FSJetpack = jetpack): ExistsResult {
-  return fsJetpack.exists(path);
+  return fsJetpack.exists(path)
 }
 
 /**
@@ -24,16 +24,15 @@ export function hasFolder(path: string, fsJetpack: FSJetpack = jetpack): ExistsR
  * @return Promise<string[]>
  */
 export function findByMatching(folder: string, options: FindOptions = {}, fsJetpack: FSJetpack = jetpack): Promise<string[]> {
-  return fsJetpack.findAsync(folder, options);
+  return fsJetpack.findAsync(folder, options)
 }
-
 
 /**
  * Return the jetpack instance
  *
  */
 export function fsJetpack(): FSJetpack {
-  return jetpack;
+  return jetpack
 }
 
 /**
@@ -44,7 +43,7 @@ export function fsJetpack(): FSJetpack {
  * @return {string}
  */
 export function resolvePath(pathParts: string[], fsJetpack: FSJetpack = jetpack): string {
-  return fsJetpack.path(...pathParts);
+  return fsJetpack.path(...pathParts)
 }
 
 /**
@@ -55,7 +54,7 @@ export function resolvePath(pathParts: string[], fsJetpack: FSJetpack = jetpack)
  * @return {Promise<string>}
  */
 export async function renderTemplateFromPath(template: string, replacers: { [key: string]: any }): Promise<string> {
-  return await renderFile(template, replacers);
+  return await renderFile(template, replacers)
 }
 
 /**
@@ -66,9 +65,8 @@ export async function renderTemplateFromPath(template: string, replacers: { [key
  * @return {Promise<string>}
  */
 export async function renderTemplateFromString(templateString: string, replacers: { [key: string]: any }): Promise<string> {
-  return await render(templateString, replacers, { async: true });
+  return await render(templateString, replacers, { async: true })
 }
-
 
 /**
  * Convert given name and type to useable object for file creation
@@ -77,25 +75,25 @@ export async function renderTemplateFromString(templateString: string, replacers
  * @param {string} type
  * @return {className: string, path: string, fileName: string, completePath: string}
  */
-export function convertNameType(name: string, type: string): { className: string, path: string, fileName: string, completePath: string } {
-  const lowerName = name.toLowerCase();
-  const sanitized = normalize(lowerName);
-  const splitted = sanitized.split('/');
+export function convertNameType(name: string, type: string): { className: string; path: string; fileName: string; completePath: string } {
+  const lowerName = name.toLowerCase()
+  const sanitized = normalize(lowerName)
+  const splitted = sanitized.split('/')
 
-  let className = splitted.pop();
+  let className = splitted.pop()
 
   if (!className.endsWith(type)) {
-    className += type;
+    className += type
   }
 
-  const fileName = `${dotCase(className)}.ts`;
+  const fileName = `${dotCase(className)}.ts`
 
   return {
     className: pascalCase(className),
     fileName,
     path: splitted.join('/'),
     completePath: [...splitted, fileName].join('/')
-  };
+  }
 }
 
 /**
@@ -106,25 +104,29 @@ export function convertNameType(name: string, type: string): { className: string
  * @param force
  * @param fsJetpack
  */
-export function dirAndFileInstaller<T = any>(path: string, installConfig: (DirAndFileInstaller & T)[], force: boolean = false, fsJetpack: FSJetpack = jetpack): void {
-  let jetpack = fsJetpack.cwd(path);
+export function dirAndFileInstaller<T = any>(
+  path: string,
+  installConfig: (DirAndFileInstaller & T)[],
+  force: boolean = false,
+  fsJetpack: FSJetpack = jetpack
+): void {
+  let jetpack = fsJetpack.cwd(path)
 
   if (!force && jetpack.exists('')) {
-    return errorMessage(jetpack.path(''), 'Already Exists');
+    return errorMessage(jetpack.path(''), 'Already Exists')
   }
 
-  installConfig
-      .forEach((step: { name: string, file?: any }) => {
-        if (!step.file) {
-          jetpack.dir(step.name);
-        } else {
-          jetpack.file(step.name, {
-            content: step.file === 'empty' ? '' : step.file
-          });
-        }
+  installConfig.forEach((step: { name: string; file?: any }) => {
+    if (!step.file) {
+      jetpack.dir(step.name)
+    } else {
+      jetpack.file(step.name, {
+        content: step.file === 'empty' ? '' : step.file
+      })
+    }
 
-        successMessage(jetpack.path(step.name), 'Created');
-      });
+    successMessage(jetpack.path(step.name), 'Created')
+  })
 }
 
 /**
@@ -135,15 +137,15 @@ export function dirAndFileInstaller<T = any>(path: string, installConfig: (DirAn
  * @param {CopyOptions} options
  */
 export function copy(source: string, destination: string, options: CopyOptions = { overwrite: true }): void {
-  return fsJetpack().copy(source, destination, options);
+  return fsJetpack().copy(source, destination, options)
 }
 
 /**
  * Interface for dirAndFileInstaller function
  */
 export interface DirAndFileInstaller {
-  name: string;
-  file?: string | object | number | boolean;
+  name: string
+  file?: string | object | number | boolean
 }
 
 /**
@@ -153,7 +155,6 @@ export interface DirAndFileInstaller {
  * @return {Promise<unknown>}
  */
 export function resolveAndLoadFile(filePath: string): Promise<unknown> {
-  const fileUrl = pathToFileURL(filePath);
+  const fileUrl = pathToFileURL(filePath)
   return import(fileUrl.href)
 }
-

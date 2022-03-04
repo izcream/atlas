@@ -4,7 +4,7 @@
  */
 
 export function isNull() {
-  return (v: any): boolean => v === null;
+  return (v: any): boolean => v === null
 }
 
 /**
@@ -13,7 +13,7 @@ export function isNull() {
  * @returns {(v: any) => boolean}
  */
 export function castToBoolean(trueValue: any = '1') {
-  return (v: any): boolean => v === true || v === trueValue;
+  return (v: any): boolean => v === true || v === trueValue
 }
 
 /**
@@ -23,7 +23,7 @@ export function castToBoolean(trueValue: any = '1') {
  * @returns {(v: any) => string}
  */
 export function castBooleanToString(trueValue: any = '1', falseValue: any = '0') {
-  return (v: any): string => (true === v ? trueValue : falseValue);
+  return (v: any): string => (true === v ? trueValue : falseValue)
 }
 
 /**
@@ -34,17 +34,17 @@ export function castBooleanToString(trueValue: any = '1', falseValue: any = '0')
 export function castToNumber(keepNull = true) {
   return (v: any): number | null => {
     if (keepNull && v === null) {
-      return null;
+      return null
     }
     if (typeof v === 'string') {
-      v = v.replace(',', '.');
+      v = v.replace(',', '.')
     }
-    const number = Number(v);
+    const number = Number(v)
     if (!Number.isNaN(number)) {
-      return number;
+      return number
     }
-    return 0;
-  };
+    return 0
+  }
 }
 
 /**
@@ -55,19 +55,19 @@ export function castToNumber(keepNull = true) {
 export function castFromJson(keepNull = true) {
   return (v: any): object | null => {
     if (keepNull && v === null) {
-      return null;
+      return null
     }
     try {
       if (typeof v === 'string') {
-        return JSON.parse(v);
+        return JSON.parse(v)
       } else if (typeof v === 'object' && v !== null) {
-        return v;
+        return v
       }
     } catch (e) {
       // will return {}
     }
-    return {};
-  };
+    return {}
+  }
 }
 
 /**
@@ -79,11 +79,11 @@ export function castFromJson(keepNull = true) {
 export function castToString(keepNull = true, standard = '') {
   return (v: any): string | null => {
     if (keepNull && v === null) {
-      return null;
+      return null
     }
     if (v !== undefined && v !== null) {
-      return String(v);
+      return String(v)
     }
-    return standard;
-  };
+    return standard
+  }
 }

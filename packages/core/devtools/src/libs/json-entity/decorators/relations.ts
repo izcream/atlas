@@ -1,9 +1,9 @@
-import { KEYS, RELATION } from '../json-entity.constants';
-import { JsonEntityModel } from '../json-entity.model';
+import { KEYS, RELATION } from '../json-entity.constants'
+import { JsonEntityModel } from '../json-entity.model'
 
 export interface IRelationInfo {
-  type: RELATION;
-  model: typeof JsonEntityModel;
+  type: RELATION
+  model: typeof JsonEntityModel
 }
 
 /**
@@ -25,9 +25,9 @@ export function HasMany(model: typeof JsonEntityModel) {
     const config: IRelationInfo = {
       type: RELATION.HAS_MANY,
       model
-    };
-    Reflect.defineMetadata(KEYS.RELATIONS, config, target, propertyKey);
-  };
+    }
+    Reflect.defineMetadata(KEYS.RELATIONS, config, target, propertyKey)
+  }
 }
 
 /**
@@ -49,7 +49,7 @@ export function HasOne(model: typeof JsonEntityModel) {
     const config: IRelationInfo = {
       type: RELATION.HAS_ONE,
       model
-    };
-    Reflect.defineMetadata(KEYS.RELATIONS, config, target, propertyKey);
-  };
+    }
+    Reflect.defineMetadata(KEYS.RELATIONS, config, target, propertyKey)
+  }
 }

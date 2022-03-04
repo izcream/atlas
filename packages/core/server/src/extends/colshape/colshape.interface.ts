@@ -5,5 +5,5 @@ export interface ColShapeInterface {
   /**
    * ColShape name for identification
    */
-  name: string;
+  name: string
 }

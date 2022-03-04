@@ -1,48 +1,45 @@
-import { app, BaseEventService, constructor, EventModel, Internal, Last, Singleton } from '@abstractflo/atlas-shared';
-import { Colshape, emitAllClients, emitClient, Entity, offClient, onceClient, onClient, Player } from 'alt-server';
+import { app, BaseEventService, constructor, EventModel, Internal, Last, Singleton } from '@abstractflo/atlas-shared'
+import { Colshape, emitAllClients, emitClient, Entity, offClient, onceClient, onClient, Player } from 'alt-server'
 
 @Singleton
 export class EventService extends BaseEventService {
-
   /**
    * Contains the off event methods
    *
    * @type {Map<string, any>}
    * @private
    */
-  protected offClientEventsMap: Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>();
+  protected offClientEventsMap: Map<string, CallableFunction[]> = new Map<string, CallableFunction[]>()
 
   /**
    * Receive event from client
    */
-  public onClient(eventName: string, listener: (player: Player, ...args: any[]) => void): void;
-  public onClient(eventName: string, listener: (player: Player, ...args: any[]) => void, resetable: boolean): void;
+  public onClient(eventName: string, listener: (player: Player, ...args: any[]) => void): void
+  public onClient(eventName: string, listener: (player: Player, ...args: any[]) => void, resetable: boolean): void
   public onClient(eventName: string, listener: (player: Player, ...args: any[]) => void, resetable?: boolean) {
-    onClient(eventName, listener);
+    onClient(eventName, listener)
 
     if (resetable) {
-      this.registerAnonymusOffEvents(this.offClient, eventName, listener);
+      this.registerAnonymusOffEvents(this.offClient, eventName, listener)
     }
   }
 
   /**
    * Unsubscribe from client event
    */
-  public offClient(eventName: string): void;
-  public offClient(eventName: string, listener: (player: Player, ...args: any[]) => void): void;
+  public offClient(eventName: string): void
+  public offClient(eventName: string, listener: (player: Player, ...args: any[]) => void): void
   public offClient(eventName: string, listener?: (player: Player, ...args: any[]) => void) {
-    listener
-        ? offClient(eventName, listener)
-        : this.processOffEvent(eventName, this.offClientEventsMap);
+    listener ? offClient(eventName, listener) : this.processOffEvent(eventName, this.offClientEventsMap)
   }
 
   /**
    * Emit event to one or all players
    */
-  public emitClient(player: Player, eventName: string, ...args: any[]): void;
-  public emitClient(player: Player[], eventName: string, ...args: any[]): void;
+  public emitClient(player: Player, eventName: string, ...args: any[]): void
+  public emitClient(player: Player[], eventName: string, ...args: any[]): void
   public emitClient(player: null, eventName: string, ...args: any[]): void {
-    emitClient(player, eventName, ...args);
+    emitClient(player, eventName, ...args)
   }
 
   /**
@@ -52,14 +49,14 @@ export class EventService extends BaseEventService {
    * @param args
    */
   public emitAllClients(eventName: string, ...args: any[]): void {
-    emitAllClients(eventName, ...args);
+    emitAllClients(eventName, ...args)
   }
 
   /**
    * Receive once event from client
    */
   public onceClient(eventName: string, listener: (player: Player, ...args: any[]) => void) {
-    onceClient(eventName, listener);
+    onceClient(eventName, listener)
   }
 
   /**
@@ -69,10 +66,10 @@ export class EventService extends BaseEventService {
    * @param {string} eventName
    * @param args
    */
-  public emitGui(player: Player, eventName: string, ...args: any[]): void;
-  public emitGui(player: Player[], eventName: string, ...args: any[]): void;
+  public emitGui(player: Player, eventName: string, ...args: any[]): void
+  public emitGui(player: Player[], eventName: string, ...args: any[]): void
   public emitGui(player: null, eventName: string, ...args: any[]): void {
-    this.emitClient(player, Internal.Events_Server_Gui, eventName, ...args);
+    this.emitClient(player, Internal.Events_Server_Gui, eventName, ...args)
   }
 
   /**
@@ -82,7 +79,7 @@ export class EventService extends BaseEventService {
    * @param args
    */
   public emitGuiAll(eventName: string, ...args: any[]): void {
-    this.emitAllClients(Internal.Events_Server_Gui, eventName, ...args);
+    this.emitAllClients(Internal.Events_Server_Gui, eventName, ...args)
   }
 
   /**
@@ -90,25 +87,21 @@ export class EventService extends BaseEventService {
    */
   @Last
   protected async start(): Promise<void> {
-    await super.listenToEvents();
+    await super.listenToEvents()
 
-    await this.resolveAndLoadEvents(this.colShapeEvents, 'ColShapeEvents', this.listenToColShapeEvents.bind(this));
-    await this.resolveAndLoadEvents(
-        [Internal.Events_Gui_Server],
-        'GuiServerEvents',
-        this.listenToGuiServerEvents.bind(this)
-    );
+    await this.resolveAndLoadEvents(this.colShapeEvents, 'ColShapeEvents', this.listenToColShapeEvents.bind(this))
+    await this.resolveAndLoadEvents([Internal.Events_Gui_Server], 'GuiServerEvents', this.listenToGuiServerEvents.bind(this))
   }
 
   /**
    * Start the colShape event listener
    */
   private listenToColShapeEvents(events: EventModel[]) {
-    const eventType = events[0].type;
+    const eventType = events[0].type
 
     this.on(eventType, (colShape: Colshape, entity: Entity) => {
-      this.handleColShapeEvents(events, colShape, entity);
-    });
+      this.handleColShapeEvents(events, colShape, entity)
+    })
   }
 
   /**
@@ -117,33 +110,30 @@ export class EventService extends BaseEventService {
   private handleColShapeEvents(events: EventModel[], colShape: Colshape, entity: Entity) {
     events.forEach((event: EventModel) => {
       if (colShape.colshapeType !== event.validateOptions.colShapeType) {
-        return;
+        return
       }
 
       if (event.validateOptions.name !== undefined && colShape.name !== event.validateOptions.name) {
-        return;
+        return
       }
 
-      if (
-          event.validateOptions.entity !== undefined &&
-          !this.isEntityType(entity.type, event.validateOptions.entity)
-      ) {
-        return;
+      if (event.validateOptions.entity !== undefined && !this.isEntityType(entity.type, event.validateOptions.entity)) {
+        return
       }
 
-      const instances = app.resolveAll<constructor<any>>(event.targetName);
+      const instances = app.resolveAll<constructor<any>>(event.targetName)
 
       instances.forEach(async (instance: constructor<any>) => {
-        const instanceMethod = instance[event.methodName];
+        const instanceMethod = instance[event.methodName]
 
         if (!instanceMethod) {
-          return;
+          return
         }
 
-        const method = instanceMethod.bind(instance);
-        await method(colShape, entity);
-      });
-    });
+        const method = instanceMethod.bind(instance)
+        await method(colShape, entity)
+      })
+    })
   }
 
   /**
@@ -154,9 +144,9 @@ export class EventService extends BaseEventService {
    */
   private listenToGuiServerEvents(events: EventModel[]): void {
     this.onClient(Internal.Events_Gui_Server, (player: Player, eventName: string, ...args: any[]) => {
-      const neededEvents = events.filter((event: EventModel) => event.eventName === eventName);
-      this.handleGuiServerEvents(neededEvents, player, ...args);
-    });
+      const neededEvents = events.filter((event: EventModel) => event.eventName === eventName)
+      this.handleGuiServerEvents(neededEvents, player, ...args)
+    })
   }
 
   /**
@@ -169,16 +159,16 @@ export class EventService extends BaseEventService {
    */
   private handleGuiServerEvents(events: EventModel[], player: Player, ...args: any[]): void {
     events.forEach((event: EventModel) => {
-      const instances = app.resolveAll<constructor<any>>(event.targetName);
+      const instances = app.resolveAll<constructor<any>>(event.targetName)
 
       instances.forEach(async (instance: constructor<any>) => {
-        const instanceMethod = instance[event.methodName];
+        const instanceMethod = instance[event.methodName]
 
-        if (!instanceMethod) return;
+        if (!instanceMethod) return
 
-        const method = instanceMethod.bind(instance, player, ...args);
-        await method();
-      });
-    });
+        const method = instanceMethod.bind(instance, player, ...args)
+        await method()
+      })
+    })
   }
 }

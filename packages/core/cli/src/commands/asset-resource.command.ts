@@ -1,9 +1,8 @@
-import { Arguments, CommandModule } from 'yargs';
-import { cfgFromObject, dirAndFileInstaller, normalize, paramCase, sanitizedCfg } from '@abstractflo/atlas-devtools';
-import { assetPackResource } from '../helpers/file-object-stubs';
+import { Arguments, CommandModule } from 'yargs'
+import { cfgFromObject, dirAndFileInstaller, normalize, paramCase, sanitizedCfg } from '@abstractflo/atlas-devtools'
+import { assetPackResource } from '../helpers/file-object-stubs'
 
 export const AssetResourceCommand: CommandModule = {
-
   /**
    * Command Name
    */
@@ -19,7 +18,6 @@ export const AssetResourceCommand: CommandModule = {
    */
   describe: 'Generate new Asset-Pack Resource',
 
-
   /**
    * Process the command
    *
@@ -27,13 +25,12 @@ export const AssetResourceCommand: CommandModule = {
    * @return {Promise<void>}
    */
   async handler(args: Arguments<{ name: string }>) {
-    const resourceName = normalize(args.name).split('/').pop();
+    const resourceName = normalize(args.name).split('/').pop()
 
     dirAndFileInstaller(args.name, [
       { name: 'assets/.gitkeep', file: 'empty' },
       { name: 'altas-resource.json', file: { name: paramCase(resourceName) } },
       { name: 'resource.cfg', file: sanitizedCfg(cfgFromObject(assetPackResource)) }
-    ]);
+    ])
   }
-
-};
+}

@@ -1,10 +1,11 @@
-import { getFrameworkMetaData, registerDescriptor } from './helpers';
-import { EventModel } from '../models/event.model';
-import { EventServiceInterface } from '../interfaces/event-service.interface';
-import { BaseEventService } from '../services/base-event.service';
-import { app } from '../di-container';
-import { Internal } from '../internal';
-
+import { getFrameworkMetaData, registerDescriptor } from './helpers'
+import { EventModel } from '../models/event.model'
+import { EventServiceInterface } from '../interfaces/event-service.interface'
+import { BaseEventService } from '../services/base-event.service'
+import { app } from '../di-container'
+import { Internal } from '../internal'
+import { IClientEvent } from 'alt-client'
+import { IServerEvent } from 'alt-server'
 /**
  * Register @On decorator
  *
@@ -12,17 +13,15 @@ import { Internal } from '../internal';
  * @return {MethodDecorator}
  * @constructor
  */
-function On(name: string): MethodDecorator;
-function On(resetable: boolean): MethodDecorator;
-function On(name: string, resetable: boolean): MethodDecorator;
-function On(name?: string, resetable?: boolean): MethodDecorator;
+function On<K extends keyof IClientEvent>(name: K): MethodDecorator
+function On<K extends keyof IServerEvent>(name: K): MethodDecorator
+function On(name: string): MethodDecorator
+function On(resetable: boolean): MethodDecorator
+function On(name: string, resetable: boolean): MethodDecorator
+function On(name?: string, resetable?: boolean): MethodDecorator
 function On(name?: string | boolean, resetable?: boolean): MethodDecorator {
-  return function (
-      target: Record<string, unknown>,
-      propertyKey: string,
-      descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
-    const eventName = typeof name !== 'boolean' && name || propertyKey;
+  return function (target: Record<string, unknown>, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const eventName = (typeof name !== 'boolean' && name) || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_On, {
       type: 'on',
@@ -33,11 +32,11 @@ function On(name?: string | boolean, resetable?: boolean): MethodDecorator {
       validateOptions: {
         name: eventName
       }
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register @Once decorator
@@ -47,23 +46,19 @@ function On(name?: string | boolean, resetable?: boolean): MethodDecorator {
  * @constructor
  */
 export const Once = (name?: string): MethodDecorator => {
-  return function (
-      target: Record<string, unknown>,
-      propertyKey: string,
-      descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
-    const eventName = name || propertyKey;
+  return function (target: Record<string, unknown>, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const eventName = name || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_Once, {
       type: 'once',
       eventName,
       methodName: propertyKey,
       targetName: target.constructor.name
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register decorated method for off handler
@@ -73,23 +68,19 @@ export const Once = (name?: string): MethodDecorator => {
  * @constructor
  */
 export const Off = (name?: string): MethodDecorator => {
-  return function (
-      target: Record<string, unknown>,
-      propertyKey: string,
-      descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
-    const eventName = name || propertyKey;
+  return function (target: Record<string, unknown>, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const eventName = name || propertyKey
 
     setEventServiceReflectMetaData(Internal.Events_Off, {
       type: 'off',
       eventName,
       methodName: propertyKey,
       targetName: target.constructor.name
-    });
+    })
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Register new console command
@@ -99,14 +90,10 @@ export const Off = (name?: string): MethodDecorator => {
  * @constructor
  */
 export const Cmd = (name?: string): MethodDecorator => {
-  return function (
-      target: Record<string, unknown>,
-      propertyKey: string,
-      descriptor: PropertyDescriptor
-  ): PropertyDescriptor {
-    const commandName = name || propertyKey;
-    const events = getFrameworkMetaData<EventModel[]>(Internal.Events_Console_Command, eventServiceTarget());
-    const alreadyExists = events.find((event: EventModel) => event.eventName === commandName);
+  return function (target: Record<string, unknown>, propertyKey: string, descriptor: PropertyDescriptor): PropertyDescriptor {
+    const commandName = name || propertyKey
+    const events = getFrameworkMetaData<EventModel[]>(Internal.Events_Console_Command, eventServiceTarget())
+    const alreadyExists = events.find((event: EventModel) => event.eventName === commandName)
 
     if (!alreadyExists) {
       setEventServiceReflectMetaData(Internal.Events_Console_Command, {
@@ -117,12 +104,12 @@ export const Cmd = (name?: string): MethodDecorator => {
         validateOptions: {
           name: commandName
         }
-      });
+      })
     }
 
-    return registerDescriptor(descriptor);
-  };
-};
+    return registerDescriptor(descriptor)
+  }
+}
 
 /**
  * Setup metaData
@@ -131,13 +118,13 @@ export const Cmd = (name?: string): MethodDecorator => {
  * @param {Partial<EventModel>} data
  */
 export function setEventServiceReflectMetaData(key: string, data: Partial<EventModel>): void {
-  const target = eventServiceTarget();
-  const events = getFrameworkMetaData<EventModel[]>(key, target);
-  const eventModel = new EventModel().cast(data);
+  const target = eventServiceTarget()
+  const events = getFrameworkMetaData<EventModel[]>(key, target)
+  const eventModel = new EventModel().cast(data)
 
-  events.push(eventModel);
+  events.push(eventModel)
 
-  Reflect.defineMetadata<EventModel[]>(key, events, target);
+  Reflect.defineMetadata<EventModel[]>(key, events, target)
 }
 
 /**
@@ -146,7 +133,7 @@ export function setEventServiceReflectMetaData(key: string, data: Partial<EventM
  * @return {EventServiceInterface}
  */
 export function eventServiceTarget(): EventServiceInterface {
-  return app.resolve<EventServiceInterface>(BaseEventService);
+  return app.resolve<EventServiceInterface>(BaseEventService)
 }
 
-export { On };
+export { On }

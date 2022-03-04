@@ -57,4 +57,4 @@ export const Internal = {
   Webview_Gui_Remove_All_Cursors: 'gui:remove:allCursors',
   Webview_Gui_Focus: 'gui:focus',
   Webview_Gui_Un_Focus: 'gui:unfocus'
-};
+}

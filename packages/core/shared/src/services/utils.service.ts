@@ -1,6 +1,6 @@
-import { InjectionToken } from 'tsyringe';
-import { Internal } from '../internal';
-import { app } from '../di-container';
+import { InjectionToken } from 'tsyringe'
+import { Internal } from '../internal'
+import { app } from '../di-container'
 
 export class UtilsService {
   /**
@@ -11,9 +11,9 @@ export class UtilsService {
    */
   public static autoClearSetTimeout(listener: CallableFunction, duration: number): void {
     const timeout = this.setTimeout(async () => {
-      await listener();
-      this.clearTimeout(timeout);
-    }, duration);
+      await listener()
+      this.clearTimeout(timeout)
+    }, duration)
   }
 
   /**
@@ -24,11 +24,11 @@ export class UtilsService {
    * @return {number}
    */
   public static setTimeout(listener: CallableFunction, duration: number): number {
-    const setTimeoutFn = this.resolveFromContainer(Internal.Alt_Set_Timeout);
+    const setTimeoutFn = this.resolveFromContainer(Internal.Alt_Set_Timeout)
 
     return setTimeoutFn(async () => {
-      await listener();
-    }, duration);
+      await listener()
+    }, duration)
   }
 
   /**
@@ -39,8 +39,8 @@ export class UtilsService {
    * @return {number}
    */
   public static setInterval(listener: CallableFunction, milliseconds: number): number {
-    const setIntervalFn = this.resolveFromContainer(Internal.Alt_Set_Interval);
-    return setIntervalFn(listener, milliseconds);
+    const setIntervalFn = this.resolveFromContainer(Internal.Alt_Set_Interval)
+    return setIntervalFn(listener, milliseconds)
   }
 
   /**
@@ -50,8 +50,8 @@ export class UtilsService {
    * @return {number}
    */
   public static everyTick(listener: CallableFunction): number {
-    const everyTickFn = this.resolveFromContainer(Internal.Alt_Every_Tick);
-    return everyTickFn(listener);
+    const everyTickFn = this.resolveFromContainer(Internal.Alt_Every_Tick)
+    return everyTickFn(listener)
   }
 
   /**
@@ -62,11 +62,11 @@ export class UtilsService {
    * @param {number} intervalDuration
    */
   public static autoClearInterval(listener: CallableFunction, milliseconds: number, intervalDuration: number): void {
-    const interval = this.setInterval(listener, milliseconds);
+    const interval = this.setInterval(listener, milliseconds)
 
     this.setTimeout(() => {
-      this.clearInterval(interval);
-    }, intervalDuration);
+      this.clearInterval(interval)
+    }, intervalDuration)
   }
 
   /**
@@ -76,8 +76,8 @@ export class UtilsService {
    * @return {number}
    */
   public static nextTick(listener: CallableFunction): number {
-    const nextTickFn = this.resolveFromContainer(Internal.Alt_Next_Tick);
-    return nextTickFn(listener);
+    const nextTickFn = this.resolveFromContainer(Internal.Alt_Next_Tick)
+    return nextTickFn(listener)
   }
 
   /**
@@ -86,8 +86,8 @@ export class UtilsService {
    * @param {number} timeout
    */
   public static clearTimeout(timeout: number): void {
-    const clearTimeoutFn = this.resolveFromContainer(Internal.Alt_Clear_Timeout);
-    clearTimeoutFn(timeout);
+    const clearTimeoutFn = this.resolveFromContainer(Internal.Alt_Clear_Timeout)
+    clearTimeoutFn(timeout)
   }
 
   /**
@@ -96,8 +96,8 @@ export class UtilsService {
    * @param {number} interval
    */
   public static clearInterval(interval: number): void {
-    const clearIntervalFn = this.resolveFromContainer(Internal.Alt_Clear_Interval);
-    clearIntervalFn(interval);
+    const clearIntervalFn = this.resolveFromContainer(Internal.Alt_Clear_Interval)
+    clearIntervalFn(interval)
   }
 
   /**
@@ -106,8 +106,8 @@ export class UtilsService {
    * @param {number} tick
    */
   public static clearNextTick(tick: number): void {
-    const clearNextTickFn = this.resolveFromContainer(Internal.Alt_Clear_Next_Tick);
-    clearNextTickFn(tick);
+    const clearNextTickFn = this.resolveFromContainer(Internal.Alt_Clear_Next_Tick)
+    clearNextTickFn(tick)
   }
 
   /**
@@ -116,8 +116,8 @@ export class UtilsService {
    * @param {number} tick
    */
   public static clearEveryTick(tick: number): void {
-    const clearEveryTick = this.resolveFromContainer(Internal.Alt_Clear_Every_Tick);
-    clearEveryTick(tick);
+    const clearEveryTick = this.resolveFromContainer(Internal.Alt_Clear_Every_Tick)
+    clearEveryTick(tick)
   }
 
   /**
@@ -126,8 +126,8 @@ export class UtilsService {
    * @param messages
    */
   public static log(...messages: any[]): void {
-    const log = this.resolveFromContainer(Internal.Alt_Log);
-    log(...messages);
+    const log = this.resolveFromContainer(Internal.Alt_Log)
+    log(...messages)
   }
 
   /**
@@ -136,8 +136,8 @@ export class UtilsService {
    * @param messages
    */
   public static logWarning(...messages: any[]): void {
-    const logWarning = this.resolveFromContainer(Internal.Alt_Log_Warning);
-    logWarning(...messages);
+    const logWarning = this.resolveFromContainer(Internal.Alt_Log_Warning)
+    logWarning(...messages)
   }
 
   /**
@@ -146,8 +146,8 @@ export class UtilsService {
    * @param messages
    */
   public static logError(...messages: any[]): void {
-    const logError = this.resolveFromContainer(Internal.Alt_Log_Error);
-    logError(...messages);
+    const logError = this.resolveFromContainer(Internal.Alt_Log_Error)
+    logError(...messages)
   }
 
   /**
@@ -156,7 +156,7 @@ export class UtilsService {
    * @param messages
    */
   public static logLoaded(...messages: any[]): void {
-    messages.forEach((message: any) => this.log(`Loaded ~lg~${message}~w~`));
+    messages.forEach((message: any) => this.log(`Loaded ~lg~${message}~w~`))
   }
 
   /**
@@ -165,7 +165,7 @@ export class UtilsService {
    * @param messages
    */
   public static logUnloaded(...messages: any[]): void {
-    messages.forEach((message: any) => this.log(`Unloaded ~lg~${message}~w~`));
+    messages.forEach((message: any) => this.log(`Unloaded ~lg~${message}~w~`))
   }
 
   /**
@@ -175,12 +175,12 @@ export class UtilsService {
    * @param {number} length
    */
   public static logRegisteredHandlers(name: string, length: number): void {
-    if (this.isProduction()) return;
-    this.log(`Registered all handlers for ~lg~${name}~w~ - ~y~[${length}]~w~`);
+    if (this.isProduction()) return
+    this.log(`Registered all handlers for ~lg~${name}~w~ - ~y~[${length}]~w~`)
   }
 
   public static isProduction(toggle: boolean = false): boolean {
-    return (typeof process !== 'undefined' && process.env.ATLAS_PRODUCTION === 'true') || toggle;
+    return (typeof process !== 'undefined' && process.env.ATLAS_PRODUCTION === 'true') || toggle
   }
 
   /**
@@ -190,8 +190,8 @@ export class UtilsService {
    * @param {(...args: any[]) => void} listener
    */
   public static eventOn(eventName: string, listener: (...args: any[]) => void): void {
-    const eventHandler = this.resolveFromContainer(Internal.Alt_On);
-    eventHandler(eventName, listener);
+    const eventHandler = this.resolveFromContainer(Internal.Alt_On)
+    eventHandler(eventName, listener)
   }
 
   /**
@@ -201,8 +201,8 @@ export class UtilsService {
    * @param {(...args: any[]) => void} listener
    */
   public static eventOnce(eventName: string, listener: (...args: any[]) => void): void {
-    const eventHandler = this.resolveFromContainer(Internal.Alt_Once);
-    eventHandler(eventName, listener);
+    const eventHandler = this.resolveFromContainer(Internal.Alt_Once)
+    eventHandler(eventName, listener)
   }
 
   /**
@@ -212,8 +212,8 @@ export class UtilsService {
    * @param {(...args: any[]) => void} listener
    */
   public static eventOff(eventName: string, listener: (...args: any[]) => void): void {
-    const eventHandler = this.resolveFromContainer(Internal.Alt_Off);
-    eventHandler(eventName, listener);
+    const eventHandler = this.resolveFromContainer(Internal.Alt_Off)
+    eventHandler(eventName, listener)
   }
 
   /**
@@ -223,8 +223,8 @@ export class UtilsService {
    * @param args
    */
   public static eventEmit(eventName: string, ...args: any[]): void {
-    const eventHandler = this.resolveFromContainer(Internal.Alt_Emit);
-    eventHandler(eventName, ...args);
+    const eventHandler = this.resolveFromContainer(Internal.Alt_Emit)
+    eventHandler(eventName, ...args)
   }
 
   /**
@@ -246,6 +246,6 @@ export class UtilsService {
    * @private
    */
   private static resolveFromContainer(token: InjectionToken): CallableFunction {
-    return app.resolve<CallableFunction>(token);
+    return app.resolve<CallableFunction>(token)
   }
 }
